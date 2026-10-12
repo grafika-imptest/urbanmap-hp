@@ -72,11 +72,15 @@
                 });
               });
             } else {
-              btn.textContent = '1';
+              btn.className = 'kopie-mapa-pin';
               btn.setAttribute('aria-label', 'Detail projektu');
               btn.addEventListener('click', function () { window.location.href = p.href; });
             }
-            m = markery[key] = new maplibregl.Marker({ element: btn, anchor: 'bottom' }).setLngLat(f.geometry.coordinates);
+            // Špendlík má bod polohy v 69 % výšky (pod ním je stín), proto střed posunutý o 0,19 × 48 px.
+            m = markery[key] = p.cluster
+              ? new maplibregl.Marker({ element: btn, anchor: 'bottom' })
+              : new maplibregl.Marker({ element: btn, anchor: 'center', offset: [0, -9] });
+            m.setLngLat(f.geometry.coordinates);
           }
           nove[key] = m;
           m.addTo(map);
@@ -101,6 +105,33 @@
     });
   }
 
+  // --- Špendlíky dopadající na mapu v sekci „Dostaňte projekt na mapu“ ---
+  // Přehrají se pokaždé, když sekce přijde do záběru (jako v prototypu). Při odchodu
+  // se vrátí do výchozího stavu bez přechodu, jinak by viditelně odlétaly nahoru.
+  function initPiny() {
+    var vrstva = document.querySelector('.kopie-piny');
+    if (!vrstva || !window.IntersectionObserver) return;
+    var piny = vrstva.querySelectorAll('.kopie-pin');
+    var KROK = 130;
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        piny.forEach(function (pin, i) {
+          var ikona = pin.firstElementChild;
+          if (e.isIntersecting) {
+            ikona.style.setProperty('--zpozdeni', (i * KROK) + 'ms');
+            pin.classList.add('is-in');
+          } else {
+            ikona.style.transition = 'none';
+            pin.classList.remove('is-in');
+            void ikona.offsetWidth; // vynutit přepočet, než se přechod vrátí
+            ikona.style.transition = '';
+          }
+        });
+      });
+    }, { rootMargin: '0px 0px -15% 0px', threshold: 0.2 }).observe(vrstva);
+  }
+
   initMapa();
   initCookies();
+  initPiny();
 })();

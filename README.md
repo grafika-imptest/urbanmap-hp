@@ -19,5 +19,6 @@ Kopie nemá backend. Filtry, vyhledávání, řazení a přepínače jsou jen vi
 - **Barva:** žlutá `#ffd400` nahrazena zelenou z loga v2 `#088e45` přímo v původních CSS (`assets/css/[0-9]*.css`), text na zelené je bílý. Text zeleně na tmavém podkladu používá světlejší `#3cc47a` kvůli kontrastu.
 - **Logo:** logo v2 (`assets/img/logo/`) v hlavičce, ve velkém nápisu v patičce a jako favicon. Hlavička má logo inline SVG s nápisem v `currentColor`, takže funguje na světlém i tmavém podkladu.
 - **Písmo:** Urbanist z Google Fonts místo Geist / Instrument Sans (`assets/css/kopie.css`). Geist Mono zůstává.
+- **Špendlíky:** symbol `assets/img/logo/map-pin.svg`. V sekci „Dostaňte projekt na mapu“ dopadají shora na 8 měst na mapě v obloze pokaždé, když sekce přijde do záběru (převzato z prototypu, souřadnice v % rámu panoramatu 3072 × 1994; na šířce pod 56rem skryté). Na mapě katalogu je tímto symbolem každý samostatný projekt, shluky zůstávají zelená kolečka s počtem.
 
 Pozor: `tools/snapshot.mjs` tyto úpravy přepíše.
