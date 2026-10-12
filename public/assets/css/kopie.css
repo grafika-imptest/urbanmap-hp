@@ -89,3 +89,8 @@ html .pismodisplay_c3a09d25-module__eK5-Ma__variable {
   transform-origin: 50% 69%;
 }
 .kopie-mapa-pin:hover { transform: scale(1.12); }
+
+/* Štítky stavu projektu („V prodeji“ atd.) bez tečky. */
+.katalog-module__1b44Qq__stitek::before {
+  content: none;
+}
