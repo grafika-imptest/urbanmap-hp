@@ -25,3 +25,10 @@ html .pismodisplay_c3a09d25-module__eK5-Ma__variable {
   width: 92vw;
   height: auto;
 }
+
+/* Nadpis „dostaňte projekt na mapu“ — malými písmeny (jako logo) místo verzálek, Urbanist */
+.katalog-module__1b44Qq__panoramaNadpis {
+  text-transform: lowercase;
+  font-family: "Urbanist", system-ui, sans-serif;
+  letter-spacing: -0.03em;
+}
