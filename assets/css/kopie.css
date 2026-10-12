@@ -1,1 +1,27 @@
 /* Úpravy statické kopie nad původním CSS urbanmap.cz. Sem patří vlastní změny designu. */
+
+/* Písmo: Urbanist (Google Fonts) místo Geist a Instrument Sans. Mono zůstává Geist Mono. */
+html.geistsans_d025f23b-module__VOFl2G__variable {
+  --font-geist-sans: "Urbanist", "geistSans Fallback", system-ui, sans-serif;
+}
+.katalog-module__1b44Qq__stranka.katalog-module__1b44Qq__stranka,
+html .pismodisplay_c3a09d25-module__eK5-Ma__variable {
+  --font-katalog-display: "Urbanist", "pismoDisplay Fallback", system-ui, sans-serif;
+}
+
+/* Logo v2 (zelená #088e45) — nápis bere barvu z okolí, takže sedí na světlém i tmavém podkladu */
+.kopie-logo {
+  display: block;
+  height: 1.75rem;
+  width: auto;
+  color: var(--k-ink);
+}
+.katalog-module__1b44Qq__paticka .kopie-logo,
+.katalog-module__1b44Qq__stranka:has(.katalog-module__1b44Qq__hero) .katalog-module__1b44Qq__hlavicka:not([data-rolovano]) .kopie-logo {
+  color: #fff;
+}
+.kopie-logo-paticka {
+  display: block;
+  width: 92vw;
+  height: auto;
+}
