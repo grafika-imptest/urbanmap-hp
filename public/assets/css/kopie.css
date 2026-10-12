@@ -94,3 +94,12 @@ html .pismodisplay_c3a09d25-module__eK5-Ma__variable {
 .katalog-module__1b44Qq__stitek::before {
   content: none;
 }
+
+/* Tlačítko „Pro developery“ v panoramatu: zelené s bílým písmem místo černého. */
+.katalog-module__1b44Qq__ctaTlacitko {
+  background: var(--k-accent);
+  color: var(--k-accent-ink);
+}
+.katalog-module__1b44Qq__ctaTlacitko:hover {
+  background: var(--k-accent-hover);
+}
