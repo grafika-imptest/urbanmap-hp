@@ -794,3 +794,12 @@ form.je-odeslano .u-dialog__hotovo { display: grid !important; }
 .u-registrace::before { content: ""; position: absolute; z-index: -1; inset: 0 30% 0 0; background: url("../img/panorama-popredi-1dd3fc.webp") 45% 100% / cover no-repeat, url("../img/panorama-95775c.webp") 45% 100% / cover no-repeat; /* obloha s mapou + popředí s domy, stejný rám jako na HP */ filter: saturate(1.05) brightness(.62); -webkit-mask-image: linear-gradient(90deg, #000 35%, transparent 100%); mask-image: linear-gradient(90deg, #000 35%, transparent 100%); }
 .u-registrace > div:first-child { text-shadow: 0 2px 18px #0009; }
 @media (max-width: 760px) { .u-registrace::before { inset: 0 0 45% 0; -webkit-mask-image: linear-gradient(180deg, #000 40%, transparent 100%); mask-image: linear-gradient(180deg, #000 40%, transparent 100%); } }
+
+/* Pro developery: panorama jako hero — na desktopu se vejde do okna, aby domy byly vidět hned (ořízne se horní obloha) */
+@media (min-width: 64rem) {
+  .u-propanorama { --panorama-pismo: clamp(3rem, 6.4vw, 8.25rem); min-height: max(600px, min(60vw + 40px, 100svh - 64px)); }
+  .u-propanorama .katalog-module__1b44Qq__panoramaNadpis { width: min(980px, 58vw); }
+}
+@media (min-width: 64rem) {
+  .u-propanorama .katalog-module__1b44Qq__panoramaAkce { background: #ffffffa6; -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); padding: 20px 22px 22px; border-radius: 18px; box-shadow: 0 12px 40px -18px #0b2a4a59; max-width: 24rem; }
+}
