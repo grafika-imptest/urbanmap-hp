@@ -789,3 +789,8 @@ form.je-odeslano .u-dialog__hotovo { display: grid !important; }
 .u-newsletter p, .u-cta-dev p, .u-registrace p { color: #ffffffb3; }
 .u-newsletter .u-drobne, .u-band .u-drobne, .u-registrace .u-drobne { grid-column: 1 / -1; color: #ffffff80; }
 .u-newsletter .u-dialog__hotovo, .u-newsletter .u-dialog__hotovo p { color: #6fdc9f; }
+
+/* Registrace (Pro developery): fotka panoramatu z HP vlevo, rozplývá se do tmavé plochy pod formulářem */
+.u-registrace::before { content: ""; position: absolute; z-index: -1; inset: 0 30% 0 0; background: url("../img/panorama-popredi-1dd3fc.webp") 45% 100% / cover no-repeat, url("../img/panorama-95775c.webp") 45% 100% / cover no-repeat; /* obloha s mapou + popředí s domy, stejný rám jako na HP */ filter: saturate(1.05) brightness(.62); -webkit-mask-image: linear-gradient(90deg, #000 35%, transparent 100%); mask-image: linear-gradient(90deg, #000 35%, transparent 100%); }
+.u-registrace > div:first-child { text-shadow: 0 2px 18px #0009; }
+@media (max-width: 760px) { .u-registrace::before { inset: 0 0 45% 0; -webkit-mask-image: linear-gradient(180deg, #000 40%, transparent 100%); mask-image: linear-gradient(180deg, #000 40%, transparent 100%); } }
