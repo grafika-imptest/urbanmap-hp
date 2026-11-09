@@ -75,7 +75,7 @@ ${m2.length >= 2 ? `<section class="u-wrap u-sekce">
 <section class="u-wrap u-sekce u-lokinfo">
   <div><h2 class="u-h3">Typ bydlení</h2><ul class="u-pruhy">${kats.map(({ k, n }) => `<li style="--barva:${KATEGORIE[k].barva}"><span>${esc(k)}</span><i style="--w:${(n / ps.length) * 100}%"></i><b>${n}</b></li>`).join('') || '<li><span>Neuvedeno</span></li>'}</ul></div>
   ${lifestyle.length ? `<div><h2 class="u-h3">Co je v okolí projektů</h2><div class="u-tagy">${lifestyle.map((t) => `<span class="u-tag">${esc(t)}</span>`).join('')}</div><p class="u-drobne">Podle štítků, které u projektů uvádí developer.</p></div>` : ''}
-  ${devs.length ? `<div><h2 class="u-h3">Kdo tu staví</h2><ul class="u-devmini">${devs.map((d) => `<li><a href="${R}developer/${d.slug}/"><span class="u-devmini__logo${d.logoDark ? ' u-devmini__logo--tmave' : ''}">${d.logo ? `<img src="${R}${media(d.logo, 256)}" alt=""/>` : ''}</span><b>${esc(d.name)}</b><em>${d.projekty.filter((p) => p.obec === o.name).length}</em></a></li>`).join('')}</ul></div>` : ''}
+  ${devs.length ? `<div><h2 class="u-h3">Kdo tu staví</h2><ul class="u-devmini">${devs.map((d) => `<li><a href="${R}developer/${d.slug}/"><span class="u-devmini__logo${d.logoDark ? ' u-devmini__logo--tmave' : ''}">${d.logo ? `<img src="${R}${media(d.logo, 640)}" alt=""/>` : ''}</span><b>${esc(d.name)}</b><em>${d.projekty.filter((p) => p.obec === o.name).length}</em></a></li>`).join('')}</ul></div>` : ''}
 </section>
 <div class="u-wrap">${pasHlidani({ nadpis: `Hlídat novostavby ${esc(o.name)}`, text: `Jako první se dozvíte o novém projektu v lokalitě ${esc(o.name)}.`, kontext: o.name })}</div>
 <section class="u-wrap u-sekce">

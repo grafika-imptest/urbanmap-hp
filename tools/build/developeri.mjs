@@ -2,7 +2,7 @@
 import { stranka, kartaProjektu, ikona, esc, mil, media, mapa, bodProjektu, zapis, drobecky, plural, sekceHlava, STAVY, KATEGORIE, slugify } from './lib.mjs';
 
 // Modifikátor --tmave patří k první (základní) třídě, ne k celému seznamu tříd
-const logo = (d, R, cls = 'u-devlogo') => `<span class="${cls}${d.logoDark ? ` ${cls.split(' ')[0]}--tmave` : ''}">${d.logo ? `<img src="${R}${media(d.logo, 256)}" alt="${esc(d.name)}"/>` : `<b>${esc(d.name.slice(0, 2))}</b>`}</span>`;
+const logo = (d, R, cls = 'u-devlogo') => `<span class="${cls}${d.logoDark ? ` ${cls.split(' ')[0]}--tmave` : ''}">${d.logo ? `<img src="${R}${media(d.logo, 640)}" alt="${esc(d.name)}"/>` : `<b>${esc(d.name.slice(0, 2))}</b>`}</span>`;
 const vProdeji = (d) => d.projekty.filter((p) => ['v_prodeji', 'predprodej'].includes(p.status)).length;
 
 export function developeri({ P, devs, obceSerazene }) {

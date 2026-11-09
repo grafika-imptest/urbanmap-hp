@@ -52,7 +52,7 @@ ${foto.slice(0, 5).map((u, i) => `<button type="button" class="u-mozaika__dlazdi
   <div class="u-dhead__radek"><div>
     <div class="u-dhead__stitky">${kat.map((k) => `<span class="u-kat" style="--barva:${KATEGORIE[k].barva}">${esc(k)}</span>`).join('')}${p.zeme !== 'CZ' ? `<span class="u-kat">${ikona('svet')}${ZEME[p.zeme]}</span>` : ''}</div>
     <h1 class="u-h1">${esc(p.name)}</h1>
-    <p class="u-dhead__meta"><a href="#lokalita">${ikona('pin')}${esc(p.address || p.city)}</a><a href="${R}developer/${p.developer.slug}/">${dev?.logo ? `<img src="${R}${media(dev.logo, 256)}" alt="" class="u-minilogo${dev.logoDark ? ' u-minilogo--tmave' : ''}"/>` : ikona('budova')}${esc(p.developer.name)}</a></p>
+    <p class="u-dhead__meta"><a href="#lokalita">${ikona('pin')}${esc(p.address || p.city)}</a><a href="${R}developer/${p.developer.slug}/">${dev?.logo ? `<img src="${R}${media(dev.logo, 640)}" alt="" class="u-minilogo${dev.logoDark ? ' u-minilogo--tmave' : ''}"/>` : ikona('budova')}${esc(p.developer.name)}</a></p>
   </div><div class="u-dhead__akce">
     <button type="button" class="u-btn u-btn--obrys u-btn--s" data-ulozit="${p.id}" aria-pressed="false">${ikona('srdce')}Uložit</button>
     <button type="button" class="u-btn u-btn--obrys u-btn--s" data-sdilet>${ikona('sdilet')}Sdílet</button>
@@ -97,7 +97,7 @@ ${galerie}
   </section>` : ''}
   <section id="developer" class="u-dsekce">
     <div class="u-devblok">
-      <a class="u-devblok__logo${dev?.logoDark ? ' u-devblok__logo--tmave' : ''}" href="${R}developer/${p.developer.slug}/">${dev?.logo ? `<img src="${R}${media(dev.logo, 256)}" alt="${esc(p.developer.name)}"/>` : ikona('budova', 'u-ico u-ico--velka')}</a>
+      <a class="u-devblok__logo${dev?.logoDark ? ' u-devblok__logo--tmave' : ''}" href="${R}developer/${p.developer.slug}/">${dev?.logo ? `<img src="${R}${media(dev.logo, 640)}" alt="${esc(p.developer.name)}"/>` : ikona('budova', 'u-ico u-ico--velka')}</a>
       <div class="u-devblok__text"><span class="u-eyebrow">Developer</span><h2 class="u-h3">${esc(p.developer.name)}</h2>${dev?.description ? `<p>${esc(dev.description.length > 260 ? dev.description.slice(0, 257) + '…' : dev.description)}</p>` : ''}
         <dl class="u-minifakta">${dev ? `<div><dt>Projektů na Urbanmapu</dt><dd>${dev.projekty.length}</dd></div>` : ''}${dev?.founded ? `<div><dt>Založeno</dt><dd>${dev.founded}</dd></div>` : ''}${p.contact.seat ? `<div><dt>Sídlo</dt><dd>${esc(p.contact.seat)}</dd></div>` : ''}</dl>
         <div class="u-row">${p.contact.email ? `<a class="u-btn u-btn--obrys u-btn--s" href="mailto:${esc(p.contact.email)}">${ikona('mail')}${esc(p.contact.email)}</a>` : ''}<a class="u-btn u-btn--tmave u-btn--s" href="${R}developer/${p.developer.slug}/">Profil developera ${ikona('sipka')}</a></div></div>
