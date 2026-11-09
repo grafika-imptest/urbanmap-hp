@@ -1,0 +1,14 @@
+{
+  "name": "urbanmap-hp",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "crawl": "node tools/crawl.mjs",
+    "extract": "node tools/extract.mjs",
+    "build": "node tools/build.mjs",
+    "dev": "node tools/dev.cjs"
+  },
+  "devDependencies": {
+    "linkedom": "0.18.5"
+  }
+}
