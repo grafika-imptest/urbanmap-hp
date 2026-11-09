@@ -103,3 +103,18 @@ html .pismodisplay_c3a09d25-module__eK5-Ma__variable {
 .katalog-module__1b44Qq__ctaTlacitko:hover {
   background: var(--k-accent-hover);
 }
+
+/* CTA „Přidat projekt“ v hlavičce — hlavní konverze pro developery na každé stránce */
+.u-navcta {
+  display: inline-flex; align-items: center; gap: 7px; flex: none;
+  height: 38px; padding: 0 16px 0 13px; border-radius: 999px;
+  background: #088e45; color: #fff; text-decoration: none;
+  font-family: inherit; font-weight: 600; font-size: .875rem; line-height: 1; white-space: nowrap;
+  box-shadow: 0 1px 0 #ffffff26 inset, 0 4px 14px -6px #088e4599;
+  transition: background-color .18s, transform .18s, box-shadow .18s;
+}
+.u-navcta:hover { background: #067a3b; transform: translateY(-1px); box-shadow: 0 1px 0 #ffffff26 inset, 0 8px 20px -8px #088e45cc; }
+.u-navcta:focus-visible { outline: 2px solid #088e45; outline-offset: 3px; }
+.u-navcta--drawer { display: flex; justify-content: center; height: 46px; margin-top: 16px; font-size: 1rem; }
+@media (max-width: 64rem) { .katalog-module__1b44Qq__hlavickaAkce > .u-navcta { height: 36px; padding: 0 14px 0 11px; } }
+@media (max-width: 26rem) { .katalog-module__1b44Qq__hlavickaAkce > .u-navcta span { display: none; } .katalog-module__1b44Qq__hlavickaAkce > .u-navcta { width: 36px; padding: 0; justify-content: center; } }
