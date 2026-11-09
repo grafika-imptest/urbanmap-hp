@@ -181,7 +181,7 @@ form.je-odeslano .u-dialog__hotovo { display: grid !important; }
 .u-fdrop summary::-webkit-details-marker { display: none; }
 .u-fdrop summary .u-ico { width: 16px; height: 16px; color: var(--k-ink-45); }
 .u-fdrop[open] summary, .u-fdrop.je-aktivni summary { border-color: var(--k-ink); }
-.u-fdrop.je-aktivni summary::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--k-accent); }
+
 .u-fdrop__panel { position: absolute; top: calc(100% + 8px); left: 0; z-index: 20; background: var(--k-surface-2); border-radius: 18px; box-shadow: var(--k-sh-3); border: 1px solid var(--k-line); padding: 18px; width: max-content; max-width: min(460px, 86vw); display: grid; gap: 10px; }
 .u-fchips { display: flex; flex-wrap: wrap; gap: 6px; }
 .u-fchip { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding-inline: 13px; border-radius: 999px; border: 1px solid var(--k-line); background: var(--k-surface-2); font: inherit; font-size: .8125rem; font-weight: 600; color: var(--k-ink-70); cursor: pointer; transition: background-color .16s, color .16s, border-color .16s; }
@@ -222,6 +222,92 @@ form.je-odeslano .u-dialog__hotovo { display: grid !important; }
 .u-seo a { color: var(--k-ink-70); text-decoration: none; }
 .u-seo a:hover { color: var(--k-accent); }
 .u-seo li span { color: var(--k-ink-45); font-size: .8rem; }
+
+/* Karta „Sestavit hledání“ v hlavičce výpisu a tlačítko ve filtrech */
+.u-konfcta { display: grid; grid-template-columns: 64px 1fr auto; align-items: stretch; width: min(100%, 460px); padding: 0; border: 1px solid var(--k-line); border-radius: 20px; background: var(--k-surface-2); font: inherit; color: var(--k-ink); text-align: left; cursor: pointer; overflow: hidden; box-shadow: var(--k-sh-2); transition: box-shadow .2s, transform .2s; }
+.u-konfcta:hover { box-shadow: var(--k-sh-3); transform: translateY(-2px); }
+.u-konfcta__ikona { display: grid; place-items: center; background: var(--k-accent); color: #fff; }
+.u-konfcta__ikona .u-ico { width: 26px; height: 26px; }
+.u-konfcta__text { display: grid; gap: 3px; padding: 16px 18px; }
+.u-konfcta__text b { font-size: 1.0625rem; }
+.u-konfcta__text span { color: var(--k-ink-45); font-size: .8125rem; line-height: 1.35; }
+.u-konfcta > .u-ico { align-self: center; margin-right: 18px; color: var(--k-accent); transition: transform .18s; }
+.u-konfcta:hover > .u-ico { transform: translateX(3px); }
+.u-fbtn-konf { display: inline-flex; align-items: center; gap: 7px; height: 40px; padding-inline: 16px; border-radius: 999px; border: 0; background: var(--k-surface-inv); color: #fff; font: inherit; font-size: .84375rem; font-weight: 650; cursor: pointer; }
+.u-fbtn-konf .u-ico { width: 16px; height: 16px; }
+.u-zrusit { border: 0; background: none; font: inherit; font-size: .84375rem; font-weight: 600; color: var(--k-ink-70); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 0 6px; }
+.u-fdrop__panel--siroky { width: min(640px, 92vw); max-width: none; gap: 12px; }
+.u-fdrop__panel--vpravo { left: auto; right: 0; }
+.u-fdrop summary[data-n]::after { content: attr(data-n); min-width: 20px; height: 20px; padding-inline: 6px; border-radius: 999px; background: var(--k-accent); color: #fff; font-size: .7rem; display: inline-grid; place-items: center; }
+.u-fchip:disabled { opacity: .45; cursor: default; border-style: dashed; }
+.u-fchip--brzy { opacity: .55; border-style: dashed; cursor: default; }
+.u-vysledkyhead__dotaz { margin-left: 10px; display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 6px 0 12px; border-radius: 999px; background: var(--k-paper-2); font-size: .8125rem; color: var(--k-ink); }
+.u-vysledkyhead__dotaz button { border: 0; background: none; cursor: pointer; display: grid; color: var(--k-ink-45); padding: 2px; }
+
+/* Mapa krajů (SVG z konfigurátoru živého webu) */
+.u-krajmapa svg { width: 100%; height: auto; display: block; }
+.u-krajmapa path { fill: var(--k-paper-2); stroke: var(--k-surface-2); stroke-width: 2; cursor: pointer; transition: fill .16s; outline: none; }
+.u-krajmapa path:not([data-prazdny]) { fill: color-mix(in srgb, var(--k-accent) 22%, var(--k-paper-2)); }
+.u-krajmapa path:not([data-prazdny]):hover, .u-krajmapa path:focus-visible { fill: color-mix(in srgb, var(--k-accent) 55%, var(--k-paper-2)); }
+.u-krajmapa path[aria-pressed="true"] { fill: var(--k-accent); }
+.u-krajmapa path[data-prazdny] { cursor: default; }
+
+/* Posuvník rozsahu s histogramem */
+.u-rozsah { display: grid; gap: 4px; }
+.u-histogram { display: flex; align-items: flex-end; gap: 2px; height: 52px; padding-inline: 9px; }
+.u-histogram i { flex: 1; height: var(--h); border-radius: 3px 3px 0 0; background: var(--k-paper-2); transition: background-color .16s; }
+.u-histogram i.je-v-rozsahu { background: color-mix(in srgb, var(--k-accent) 60%, transparent); }
+.u-rozsah__draha { position: relative; height: 22px; margin-inline: 9px; }
+.u-rozsah__draha::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 4px; margin-top: -2px; border-radius: 2px; background: var(--k-paper-2); }
+.u-rozsah__vypln { position: absolute; top: 50%; height: 4px; margin-top: -2px; border-radius: 2px; background: var(--k-accent); left: var(--a, 0%); right: calc(100% - var(--b, 100%)); }
+.u-rozsah__draha input { position: absolute; inset: 0 -9px; width: calc(100% + 18px); margin: 0; background: none; pointer-events: none; -webkit-appearance: none; appearance: none; height: 22px; }
+.u-rozsah__draha input::-webkit-slider-thumb { -webkit-appearance: none; pointer-events: auto; width: 20px; height: 20px; border-radius: 50%; background: #fff; border: 2px solid var(--k-accent); box-shadow: var(--k-sh-2); cursor: grab; }
+.u-rozsah__draha input::-moz-range-thumb { pointer-events: auto; width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 2px solid var(--k-accent); box-shadow: var(--k-sh-2); cursor: grab; }
+.u-rozsah__draha input::-moz-range-track { background: none; }
+.u-rozsah__pole { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+.u-rozsah__pole:has(.u-pole--mena) { grid-template-columns: 1fr 1fr 130px; }
+
+/* Investiční profil */
+.u-invest { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.u-investbtn { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: center; padding: 10px 14px 10px 10px; border-radius: 14px; border: 1px solid var(--k-line); background: var(--k-surface-2); font: inherit; text-align: left; color: var(--k-ink); cursor: pointer; transition: border-color .16s, background-color .16s; }
+.u-investbtn__ikona { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: var(--k-paper); color: var(--k-accent); }
+.u-investbtn b { display: block; font-size: .875rem; }
+.u-investbtn em { font-style: normal; color: var(--k-ink-45); font-size: .75rem; }
+.u-investbtn:hover:not(:disabled) { border-color: var(--k-ink-25); }
+.u-investbtn[aria-pressed="true"] { border-color: var(--k-accent); background: var(--k-accent-soft); }
+.u-investbtn[aria-pressed="true"] .u-investbtn__ikona { background: var(--k-accent); color: #fff; }
+.u-investbtn:disabled { cursor: default; border-style: dashed; opacity: .55; }
+
+/* Pohled Seznam: vodorovné řádky */
+.u-explorer[data-pohled-aktivni="seznam"] { grid-template-columns: 1fr; padding-right: var(--k-gutter); }
+.u-explorer[data-pohled-aktivni="seznam"] .u-explorer__mapa { display: none; }
+.u-explorer[data-pohled-aktivni="seznam"] .u-explorer__seznam { padding-right: 0; }
+.u-explorer[data-pohled-aktivni="seznam"] .u-pgrid { grid-template-columns: 1fr; gap: 12px; }
+.u-explorer[data-pohled-aktivni="seznam"] .u-pcard { display: grid; grid-template-columns: 300px minmax(0, 1fr) 190px; align-items: center; }
+.u-explorer[data-pohled-aktivni="seznam"] .u-pcard__foto { aspect-ratio: auto; height: 100%; min-height: 190px; }
+.u-explorer[data-pohled-aktivni="seznam"] .u-pcard__telo { padding: 20px 26px; }
+.u-explorer[data-pohled-aktivni="seznam"] .u-pcard__nazev { font-size: 1.45rem; }
+.u-explorer[data-pohled-aktivni="seznam"] .u-pcard__fakta { border-top: 0; padding-top: 2px; }
+.u-explorer[data-pohled-aktivni="seznam"] .u-pcard__zajem { margin: 0 22px 0 0; height: 46px; }
+.u-explorer[data-pohled-aktivni="seznam"] .u-promo { min-height: 0; grid-template-columns: auto 1fr auto; align-items: center; }
+.u-explorer[data-pohled-aktivni="seznam"] .u-promo .u-eyebrow { display: none; }
+
+/* Konfigurátor hledání */
+.u-dialog--konf { max-width: min(880px, calc(100vw - 24px)); }
+.u-konf { position: relative; display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; max-height: min(88dvh, 860px); background: var(--k-surface-2); border-radius: 26px; overflow: hidden; font-family: var(--pismo); color: var(--k-ink); }
+.u-konf__hlava { display: flex; justify-content: space-between; align-items: flex-start; padding: 26px 30px 6px; }
+.u-konf__hlava .u-eyebrow { margin-bottom: 6px; }
+.u-konf__hlava .u-dialog__zavrit { position: static; }
+.u-konf__kroky { display: flex; gap: 6px; padding: 14px 30px; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--k-line); }
+.u-konf__kroky button { flex: none; display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px 0 6px; border-radius: 999px; border: 1px solid var(--k-line); background: var(--k-surface-2); font: inherit; font-size: .84375rem; font-weight: 600; color: var(--k-ink-70); cursor: pointer; }
+.u-konf__kroky button span { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--k-paper); font-weight: 700; }
+.u-konf__kroky button[aria-selected="true"] { background: var(--k-surface-inv); border-color: var(--k-surface-inv); color: #fff; }
+.u-konf__kroky button[aria-selected="true"] span { background: var(--k-accent); color: #fff; }
+.u-konf__telo { overflow-y: auto; padding: 22px 30px 26px; }
+.u-konf__telo section { display: grid; gap: 12px; }
+.u-konf__telo .u-krajmapa { max-width: 640px; }
+.u-konf__pata { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 16px 30px; border-top: 1px solid var(--k-line); background: var(--k-surface); }
+.u-konf__mezera { flex: 1; }
 
 /* Porovnání */
 .u-porovnani { position: fixed; left: 50%; bottom: 18px; translate: -50% 0; z-index: 70; background: var(--k-surface-inv); color: #fff; border-radius: 999px; padding: 8px 8px 8px 12px; box-shadow: var(--k-sh-3); animation: u-vjezd .3s; max-width: calc(100vw - 24px); }
@@ -660,4 +746,15 @@ form.je-odeslano .u-dialog__hotovo { display: grid !important; }
 @media (prefers-reduced-motion: reduce) {
   .u-logopas__pas { animation: none; }
   .u-dialog[open], .u-notifikace { animation: none; }
+}
+.u-fdrop .u-krajmapa { max-width: 470px; }
+@media (max-width: 760px) {
+  .u-explorer[data-pohled-aktivni="seznam"] .u-pcard { grid-template-columns: 1fr; }
+  .u-explorer[data-pohled-aktivni="seznam"] .u-pcard__foto { min-height: 0; aspect-ratio: 4 / 3; }
+  .u-explorer[data-pohled-aktivni="seznam"] .u-pcard__zajem { margin: 0 18px 16px; }
+  .u-invest { grid-template-columns: 1fr; }
+  .u-rozsah__pole, .u-rozsah__pole:has(.u-pole--mena) { grid-template-columns: 1fr 1fr; }
+  .u-konfcta { width: 100%; }
+  .u-fdrop__panel--siroky, .u-fdrop__panel--vpravo { position: fixed; left: 10px; right: 10px; top: 80px; width: auto; max-height: calc(100dvh - 100px); overflow-y: auto; }
+  .u-konf__hlava, .u-konf__kroky, .u-konf__telo, .u-konf__pata { padding-inline: 18px; }
 }
