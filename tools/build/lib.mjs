@@ -19,11 +19,11 @@ export const plural = (n, a, b, c) => (n === 1 ? a : n >= 2 && n <= 4 ? b : c);
 
 // Kategorie projektů (štítky z HP) — barvy jsou tokeny původního webu
 export const KATEGORIE = {
-  'Rezidenční': { slug: 'rezidencni', barva: 'var(--k-kat-rezidencni)' },
-  'Investiční': { slug: 'investicni', barva: 'var(--k-kat-investicni)' },
-  'Rekreační': { slug: 'rekreacni', barva: 'var(--k-kat-rekreacni)' },
-  'Luxusní': { slug: 'luxusni', barva: 'var(--k-kat-luxusni)' },
-  'Rodinné domy': { slug: 'rodinne', barva: 'var(--k-kat-rodinne)' },
+  'Rezidenční': { slug: 'rezidencni', barva: 'var(--k-kat-rezidencni)', ikona: 'budova' },
+  'Investiční': { slug: 'investicni', barva: 'var(--k-kat-investicni)', ikona: 'rust' },
+  'Rekreační': { slug: 'rekreacni', barva: 'var(--k-kat-rekreacni)', ikona: 'hory' },
+  'Luxusní': { slug: 'luxusni', barva: 'var(--k-kat-luxusni)', ikona: 'diamant' },
+  'Rodinné domy': { slug: 'rodinne', barva: 'var(--k-kat-rodinne)', ikona: 'dum' },
 };
 export const STAVY = {
   predprodej: 'V předprodeji', v_prodeji: 'V prodeji', pripravovany: 'Připravovaný',
@@ -121,6 +121,9 @@ const I = {
   svet: '<circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9"/>',
   stit: '<path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/>',
   blesk: '<path d="M13 3 5 13h6l-1 8 8-10h-6z"/>',
+  rust: '<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
+  hory: '<path d="M2 19 8.5 8l3 5"/><path d="M10.5 10.5 14 5l8 14"/><path d="M9 19v-4l3-2.5 3 2.5v4z"/>',
+  diamant: '<path d="M6 4h12l3 5-9 11L3 9z"/><path d="M3 9h18M9 4l3 16 3-16"/>',
   vodovaha: '<path d="M3 12h18M3 6h18M3 18h18"/>',
 };
 export const ikona = (n, cls = 'u-ico') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n] || ''}</svg>`;

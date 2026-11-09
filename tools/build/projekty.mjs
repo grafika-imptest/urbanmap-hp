@@ -25,8 +25,8 @@ export function projekty({ P, obceSerazene, devs }) {
   <form class="u-hledej" role="search" data-hledani><span>${ikona('hledat')}</span><input type="search" name="q" placeholder="Město, projekt nebo developer" aria-label="Hledat město, projekt nebo developera" autocomplete="off"/><button class="u-btn u-btn--tmave" type="submit">Hledat</button></form>
 </section>
 <nav class="u-wrap u-katpas" aria-label="Typ projektu">
-  <button type="button" class="u-kattile" data-filtr="kat" data-hodnota="" aria-pressed="true"><b>Vše</b><span>${P.length}</span></button>
-  ${kategorie.map(({ k, n }) => `<button type="button" class="u-kattile" style="--barva:${KATEGORIE[k].barva}" data-filtr="kat" data-hodnota="${KATEGORIE[k].slug}" aria-pressed="false"><b>${esc(k)}</b><span>${n}</span></button>`).join('')}
+  <button type="button" class="u-kattile" data-filtr="kat" data-hodnota="" aria-pressed="true"><span class="u-kattile__ikona">${ikona('mrizka')}</span><span class="u-kattile__text"><b>Vše</b><span>${P.length}</span></span></button>
+  ${kategorie.map(({ k, n }) => `<button type="button" class="u-kattile" style="--barva:${KATEGORIE[k].barva}" data-filtr="kat" data-hodnota="${KATEGORIE[k].slug}" aria-pressed="false"><span class="u-kattile__ikona">${ikona(KATEGORIE[k].ikona)}</span><span class="u-kattile__text"><b>${esc(k)}</b><span>${n}</span></span></button>`).join('')}
 </nav>
 <div class="u-wrap u-filtrbar" data-filtrbar>
   <details class="u-fdrop"><summary>${ikona('pin')}Lokalita</summary><div class="u-fdrop__panel"><span class="u-meta">Země</span><div class="u-fchips">${Object.entries(ZEME).map(([z, t]) => chip('zeme', z, t, pocet((p) => p.zeme === z))).join('')}</div><span class="u-meta">Obec</span><div class="u-fchips">${obceSerazene.slice(0, 14).map((o) => chip('obec', o.name, esc(o.name), o.projekty.length)).join('')}</div></div></details>
