@@ -165,7 +165,7 @@ form.je-odeslano .u-dialog__hotovo { display: grid !important; }
 .u-hledej > span { color: var(--k-ink-45); display: grid; }
 .u-hledej input { flex: 1; border: 0; outline: none; font: inherit; font-size: 1rem; background: transparent; min-width: 0; height: 42px; color: var(--k-ink); }
 .u-hledej--s { box-shadow: none; padding: 0 16px; height: 48px; }
-.u-katpas { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; margin-top: 28px; padding-bottom: 4px; }
+.u-katpas { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; margin-top: 25px; padding-block: 3px 6px; } /* odsazení, aby rolovací pás neořízl rámeček vybrané dlaždice */
 /* Dlaždice kategorie: vlevo barevný blok s ikonou, vpravo název a počet */
 .u-kattile { flex: none; display: grid; grid-template-columns: 58px 1fr; align-items: stretch; min-width: 196px; padding: 0; text-align: left; border-radius: 18px; border: 1px solid var(--k-line); background: var(--k-surface-2); font: inherit; color: var(--k-ink); cursor: pointer; overflow: hidden; transition: border-color .16s, background-color .16s, box-shadow .2s, transform .2s; }
 .u-kattile:hover { box-shadow: var(--k-sh-2); transform: translateY(-1px); }
