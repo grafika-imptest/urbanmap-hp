@@ -118,3 +118,7 @@ html .pismodisplay_c3a09d25-module__eK5-Ma__variable {
 .u-navcta--drawer { display: flex; justify-content: center; height: 46px; margin-top: 16px; font-size: 1rem; }
 @media (max-width: 64rem) { .katalog-module__1b44Qq__hlavickaAkce > .u-navcta { height: 36px; padding: 0 14px 0 11px; } }
 @media (max-width: 26rem) { .katalog-module__1b44Qq__hlavickaAkce > .u-navcta span { display: none; } .katalog-module__1b44Qq__hlavickaAkce > .u-navcta { width: 36px; padding: 0; justify-content: center; } }
+
+/* Piny jedou s mapovou scénou při scroll paralaxe (stejný posun jako .panoramaScena) */
+.kopie-piny { translate: 0 var(--px, 0); will-change: translate; }
+@media (prefers-reduced-motion: reduce) { .kopie-piny, .katalog-module__1b44Qq__panoramaScena, .katalog-module__1b44Qq__panoramaNadpis, .katalog-module__1b44Qq__panoramaHorni { translate: none; } }

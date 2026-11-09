@@ -131,7 +131,30 @@
     }, { rootMargin: '0px 0px -15% 0px', threshold: 0.2 }).observe(vrstva);
   }
 
+  // --- Scroll paralaxa jako na živém webu: každý [data-paralax] se posouvá o (hodnota × odchylka
+  // středu rámce od středu okna / výška okna). CSS čte --px přes `translate`.
+  function initParalaxa() {
+    var prvky = document.querySelectorAll('[data-paralax]');
+    if (!prvky.length || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+    var cekam = 0;
+    function prepocitej() {
+      cekam = 0;
+      var a = window.innerHeight;
+      prvky.forEach(function (e) {
+        var r = (e.closest('[data-paralax-ramec]') || e).getBoundingClientRect();
+        if (r.bottom < -a || r.top > 2 * a) return;
+        var o = (r.top + r.height / 2 - a / 2) / a;
+        e.style.setProperty('--px', (Number(e.dataset.paralax) * o).toFixed(1) + 'px');
+      });
+    }
+    function naplanuj() { if (!cekam) cekam = requestAnimationFrame(prepocitej); }
+    prepocitej();
+    window.addEventListener('scroll', naplanuj, { passive: true });
+    window.addEventListener('resize', naplanuj);
+  }
+
   initMapa();
   initCookies();
   initPiny();
+  initParalaxa();
 })();
