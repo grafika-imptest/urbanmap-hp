@@ -73,6 +73,12 @@ let hp = fs.readFileSync(path.join(PUB, 'index.html'), 'utf8');
 hp = hp.replace(/(\s(?:href|action)=")https:\/\/urbanmap\.cz(\/[^"]*)?"/g, (m, a, rest) => a + lokalniOdkaz('https://urbanmap.cz' + (rest || '/').replace(/&amp;/g, '&')).replace(/&/g, '&amp;') + '"');
 // Hledání v hlavičce vede do výpisu projektů (tam filtruje živě) — jediné vyhledávací pole na webu
 hp = hp.replace(/(<form role="search" class="[^"]*(?:hlavickaHledani|drawerHledani)" action=")[^"]*(" method="get">)<input type="hidden" name="pohled" value="mapa"\/>/g, '$1projekty/$2');
+// CTA pro developery v hlavičce (desktop vedle hledání, mobil v draweru) — idempotentně, build přepisuje index.html na místě
+const PIN = '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><path d="M12 7v5M9.5 9.5h5"/></svg>';
+if (!hp.includes('u-navcta')) {
+  hp = hp.replace('<details class="katalog-module__1b44Qq__drawer">', `<a class="u-navcta" href="pro-developery/">${PIN}<span>Přidat projekt</span></a><details class="katalog-module__1b44Qq__drawer">`);
+  hp = hp.replace(/(<div class="katalog-module__1b44Qq__drawerPanel">[\s\S]*?)(<\/div><\/details>)/, `$1<a class="u-navcta u-navcta--drawer" href="pro-developery/">${PIN}<span>Přidat projekt na mapu</span></a>$2`);
+}
 fs.writeFileSync(path.join(PUB, 'index.html'), hp);
 nactiChrome(hp);
 
