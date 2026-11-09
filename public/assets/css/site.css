@@ -781,3 +781,11 @@ form.je-odeslano .u-dialog__hotovo { display: grid !important; }
 }
 .u-devlogo, .u-logopas__logo, .u-devmini__logo, .u-devblok__logo { display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
 .u-hero-s > .u-fchips, .u-hero-s > nav.u-fchips { margin-top: clamp(22px, 2.4vw, 32px); } /* odstup od nadpisu — jinak na kategorie padají dotahy písmen (g, y, p) */
+
+/* Jednotný vzhled CTA bloků (hlídací pes, newsletter, pro developery, registrace):
+   tmavá plocha se zelenou září vpravo nahoře, světlý text, tmavá pole */
+.u-band, .u-cta-dev, .u-registrace, .u-newsletter { background: var(--k-surface-inv); color: #fff; position: relative; overflow: hidden; isolation: isolate; border-radius: 28px; }
+.u-band::after, .u-cta-dev::after, .u-registrace::after, .u-newsletter::after { content: ""; position: absolute; z-index: -1; right: -120px; top: -160px; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, #088e4566, transparent 70%); pointer-events: none; }
+.u-newsletter p, .u-cta-dev p, .u-registrace p { color: #ffffffb3; }
+.u-newsletter .u-drobne, .u-band .u-drobne, .u-registrace .u-drobne { grid-column: 1 / -1; color: #ffffff80; }
+.u-newsletter .u-dialog__hotovo, .u-newsletter .u-dialog__hotovo p { color: #6fdc9f; }

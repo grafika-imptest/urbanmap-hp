@@ -32,8 +32,8 @@ export function magazin({ articles, obceSerazene, P }) {
   <div class="u-kombinace">${kombinace.map((x) => `<a href="${x.h}"><b>${esc(x.t)}</b><span>${x.n} ${x.n === 1 ? 'projekt' : x.n < 5 ? 'projekty' : 'projektů'}</span>${ikona('sipka')}</a>`).join('')}</div>
 </section>
 <section class="u-wrap u-sekce"><div class="u-newsletter">
-  <div>${ikona('mail', 'u-ico u-ico--velka')}<h2 class="u-h2">Novinky z trhu novostaveb</h2><p>Jednou za měsíc nové projekty, průvodci a data z katalogu. Žádný spam.</p></div>
-  <form class="u-newsletter__form" data-formular="newsletter"><label class="u-pole"><span>E-mail</span><input type="email" name="email" placeholder="vas@email.cz" required/></label><button class="u-btn u-btn--primarni">Odebírat</button><div class="u-dialog__hotovo" hidden>${ikona('check')}<p>V náhledu se nic neukládá.</p></div></form>
+  <div><span class="u-eyebrow u-eyebrow--svetle">${ikona('mail')} Newsletter</span><h2 class="u-h2">Novinky z trhu novostaveb</h2><p>Jednou za měsíc nové projekty, průvodci a data z katalogu. Žádný spam.</p></div>
+  <form class="u-newsletter__form" data-formular="newsletter"><label class="u-pole u-pole--tmave"><span>E-mail</span><input type="email" name="email" placeholder="vas@email.cz" required/></label><button class="u-btn u-btn--primarni">Odebírat ${ikona('sipka')}</button><p class="u-drobne">Bez spamu, odhlásit jde jedním klikem.</p><div class="u-dialog__hotovo" hidden>${ikona('check')}<p>V náhledu se nic neukládá.</p></div></form>
 </div></section>`;
 
   zapis('magazin/index.html', stranka({ R, title: 'Magazín · Urbanmap', description: 'Průvodci koupí novostavby, trh a lokality. Pro kupující i investory.', active: 'magazin/', body, bodyAttr: 'data-stranka="magazin"' }));
