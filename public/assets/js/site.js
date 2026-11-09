@@ -224,89 +224,169 @@
   initMapy();
 
   // --- Výpis projektů: filtry, řazení, pohled ------------------------------------------------
+  // Jeden stav pro dropdowny i konfigurátor: tlačítka se stejným data-filtr/data-hodnota
+  // a posuvníky se stejným data-rozsah se po každé změně srovnají podle stavu (synchronizuj()).
   var vypis = $('[data-vysledky]');
-  var stav = { kat: '', zeme: [], obec: [], cena: [], m2: [], disp: [], stav: [], tagy: [], volne: false, q: '', oblast: null };
-  var NAZVY = { zeme: { CZ: 'Česko', ES: 'Španělsko' } };
+  var POLE = ['zeme', 'kraj', 'obec', 'disp', 'stav', 'tagy', 'invest'];
+  function novyStav() { return { kat: '', zeme: [], kraj: [], obec: [], disp: [], stav: [], tagy: [], invest: [], volne: false, q: '', oblast: null, cena: null, m2: null }; }
+  var stav = novyStav();
+  var hlavickaQ = $('.katalog-module__1b44Qq__hlavickaHledani input[name="q"]');
+  var milKc = function (n) { return n >= 1e6 ? (n / 1e6).toLocaleString('cs-CZ', { maximumFractionDigits: 1 }) + ' mil.' : Math.round(n / 1000) + ' tis.'; };
+  function popisRozsahu(k) {
+    var r = stav[k]; if (!r) return '';
+    var j = k === 'm2' ? ' Kč/m²' : ' Kč';
+    return (r[0] ? 'od ' + milKc(r[0]) : '') + (r[0] && r[1] ? ' ' : '') + (r[1] ? 'do ' + milKc(r[1]) : '') + j;
+  }
+  function aktivniPolozky() {
+    // [popisek, zrušení] pro každý aktivní filtr — pro chipy pod filtry i pro popis hlídání
+    var out = [];
+    POLE.forEach(function (k) {
+      stav[k].forEach(function (v) {
+        var b = $('[data-filtr="' + k + '"][data-hodnota="' + CSS.escape(v) + '"]');
+        var t = b ? (b.getAttribute('aria-label') || (b.querySelector('b') || b.childNodes[0] || b).textContent).split(' · ')[0].trim() : v;
+        out.push([t, function () { stav[k].splice(stav[k].indexOf(v), 1); }]);
+      });
+    });
+    if (stav.kat) { var kb = $('.u-kattile[data-hodnota="' + stav.kat + '"] b'); out.unshift([kb ? kb.textContent : stav.kat, function () { stav.kat = ''; }]); }
+    ['cena', 'm2'].forEach(function (k) { if (stav[k]) out.push([(k === 'm2' ? 'Za m² ' : 'Cena ') + popisRozsahu(k), function () { stav[k] = null; }]); });
+    if (stav.volne) out.push(['S volnými jednotkami', function () { stav.volne = false; }]);
+    if (stav.oblast) out.push(['Výřez mapy', function () { stav.oblast = null; }]);
+    return out;
+  }
   function popisFiltru() {
-    var casti = [];
-    $$('[data-filtr][aria-pressed="true"]').forEach(function (b) { if (b.dataset.hodnota) casti.push(b.childNodes[0].textContent.trim() || b.textContent.trim()); });
+    var casti = aktivniPolozky().map(function (x) { return x[0]; });
     if (stav.q) casti.push('„' + stav.q + '“');
     return casti.join(', ');
   }
-  function vRozsahu(v, rozsahy) {
-    if (!rozsahy.length) return true;
-    if (!v) return false;
-    return rozsahy.some(function (r) { var p = r.split('-'); return v >= (+p[0] || 0) && (!p[1] || v < +p[1]); });
-  }
-  function odpovida(c) {
+  function obsahuje(seznam, v) { return (' ' + seznam + ' ').indexOf(' ' + v + ' ') > -1; }
+  function vRozsahu(v, r) { if (!r) return true; if (!v) return false; return v >= (r[0] || 0) && (!r[1] || v <= r[1]); }
+  function odpovida(c, bez) {
     var d = c.dataset;
-    if (stav.kat && (' ' + d.kat + ' ').indexOf(' ' + stav.kat + ' ') < 0) return false;
+    if (bez !== 'kat' && stav.kat && !obsahuje(d.kat, stav.kat)) return false;
     if (stav.zeme.length && stav.zeme.indexOf(d.zeme) < 0) return false;
+    if (stav.kraj.length && stav.kraj.indexOf(d.kraj) < 0) return false;
     if (stav.obec.length && stav.obec.indexOf(d.obec) < 0) return false;
     if (stav.stav.length && stav.stav.indexOf(d.stav) < 0) return false;
-    if (stav.disp.length && !stav.disp.some(function (x) { return (' ' + d.disp + ' ').indexOf(' ' + x + ' ') > -1; })) return false;
-    if (stav.tagy.length && !stav.tagy.every(function (x) { return (' ' + d.tagy + ' ').indexOf(' ' + x + ' ') > -1; })) return false;
+    if (stav.disp.length && !stav.disp.some(function (x) { return obsahuje(d.disp, x); })) return false;
+    if (stav.tagy.length && !stav.tagy.every(function (x) { return obsahuje(d.tagy, x); })) return false;
+    if (stav.invest.length && !stav.invest.every(function (x) { return obsahuje(d.invest, x); })) return false;
     if (stav.volne && !(+d.volne > 0)) return false;
     if (!vRozsahu(+d.cena, stav.cena) || !vRozsahu(+d.m2, stav.m2)) return false;
     if (stav.q) { var t = (d.nazev + ' ' + d.obec + ' ' + c.textContent).toLowerCase(); if (t.indexOf(stav.q.toLowerCase()) < 0) return false; }
     if (stav.oblast && !stav.oblast.contains([+d.lon, +d.lat])) return false;
     return true;
   }
+  function synchronizuj() {
+    $$('[data-filtr]').forEach(function (b) {
+      var k = b.dataset.filtr, v = b.dataset.hodnota;
+      var on = k === 'kat' ? stav.kat === v : k === 'volne' ? stav.volne : (stav[k] || []).indexOf(v) > -1;
+      b.setAttribute('aria-pressed', String(on));
+    });
+    $$('[data-rozsah]').forEach(function (r) {
+      var k = r.dataset.rozsah, max = +r.dataset.max, h = stav[k] || [0, 0];
+      var od = h[0] || 0, doo = h[1] || max;
+      var a = $('[data-konec="od"]', r), b = $('[data-konec="do"]', r);
+      if (document.activeElement !== a) a.value = od;
+      if (document.activeElement !== b) b.value = doo;
+      r.querySelector('.u-rozsah__draha').style.setProperty('--a', (od / max * 100) + '%');
+      r.querySelector('.u-rozsah__draha').style.setProperty('--b', (doo / max * 100) + '%');
+      var po = $('[data-pole="od"]', r), pd = $('[data-pole="do"]', r);
+      if (document.activeElement !== po) po.value = h[0] ? cz(h[0]) : '';
+      if (document.activeElement !== pd) pd.value = h[1] ? cz(h[1]) : '';
+      $$('.u-histogram i', r).forEach(function (i) { i.classList.toggle('je-v-rozsahu', +i.dataset.do > od && +i.dataset.od < doo); });
+    });
+    $$('[data-rychla]').forEach(function (b) {
+      var r = stav[b.dataset.rychla];
+      b.setAttribute('aria-pressed', String(!!r && (r[0] || 0) === +b.dataset.od && (r[1] || 0) === +b.dataset.do));
+    });
+    // počet aktivních voleb u každého dropdownu
+    $$('.u-fdrop[data-skupina]').forEach(function (d) {
+      var s = d.dataset.skupina, n = s === 'lokalita' ? stav.zeme.length + stav.kraj.length + stav.obec.length : s === 'cena' ? (stav.cena ? 1 : 0) + (stav.m2 ? 1 : 0) : (stav[s] || []).length;
+      var sum = $('summary', d);
+      if (n) sum.setAttribute('data-n', n); else sum.removeAttribute('data-n');
+      d.classList.toggle('je-aktivni', n > 0);
+    });
+  }
   function aplikuj() {
     if (!vypis) return;
     var karty = $$('.u-pcard', vypis), n = 0, vidi = [];
     karty.forEach(function (c) { var ok = odpovida(c); c.hidden = !ok; if (ok) { n++; vidi.push(c.dataset.id); } });
-    var filtruje = popisFiltru() || stav.oblast;
+    var aktivni = aktivniPolozky();
+    var filtruje = aktivni.length || stav.q;
     $$('.u-promo', vypis).forEach(function (p) { p.hidden = !!filtruje && n < 6; });
     $('[data-pocet]').textContent = n;
     $('[data-pocet-text]').textContent = plural(n, 'projekt', 'projekty', 'projektů');
+    $$('[data-pocet-tl]').forEach(function (x) { x.textContent = n; });
     $('[data-prazdne]').hidden = n > 0;
-    // aktivní filtry jako odstranitelné chipy
+    $$('[data-zrusit-filtry]').forEach(function (x) { if (x.classList.contains('u-zrusit')) x.hidden = !filtruje; });
+    var dotaz = $('[data-dotaz]');
+    dotaz.hidden = !stav.q;
+    if (stav.q) dotaz.innerHTML = '„' + stav.q.replace(/</g, '&lt;') + '“<button type="button" aria-label="Zrušit hledání"><svg class="u-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>';
     var box = $('[data-aktivni-filtry]');
     box.innerHTML = '';
-    $$('[data-filtr][aria-pressed="true"]').forEach(function (b) {
-      if (!b.dataset.hodnota || b.classList.contains('u-kattile')) return;
-      var x = document.createElement('button');
-      x.type = 'button'; x.className = 'u-aktivni';
-      x.innerHTML = (b.childNodes[0].textContent.trim() || b.textContent.trim()) + ' <svg class="u-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>';
-      x.addEventListener('click', function () { b.click(); });
-      box.appendChild(x);
+    aktivni.forEach(function (x) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'u-aktivni';
+      b.innerHTML = x[0].replace(/</g, '&lt;') + ' <svg class="u-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+      b.addEventListener('click', function () { x[1](); aplikuj(); });
+      box.appendChild(b);
     });
-    $$('.u-fdrop').forEach(function (d) { d.classList.toggle('je-aktivni', !!$('[aria-pressed="true"]', d)); });
-    // mapa ukazuje jen vyhovující projekty
+    // počty u dlaždic kategorií podle ostatních filtrů
+    $$('.u-kattile').forEach(function (t) {
+      var v = t.dataset.hodnota, m = karty.filter(function (c) { return odpovida(c, 'kat') && (!v || obsahuje(c.dataset.kat, v)); }).length;
+      $('.u-kattile__text span', t).textContent = m;
+    });
+    synchronizuj();
     var el = $('#u-mapa-vypis');
     if (el && el._map && el._map.getSource && el._map.getSource('body')) el._map.getSource('body').setData(geo(el._body.filter(function (b) { return vidi.indexOf(b.id) > -1; })));
     var url = new URL(location.href);
-    ['kat', 'disp', 'obec', 'stav'].forEach(function (k) { url.searchParams.delete(k); });
+    ['kat', 'disp', 'obec', 'stav', 'kraj', 'invest', 'q', 'kategorie', 'dispozice'].forEach(function (k) { url.searchParams.delete(k); });
     if (stav.kat) url.searchParams.set('kat', stav.kat);
-    if (stav.disp.length) url.searchParams.set('disp', stav.disp.join(','));
-    if (stav.obec.length) url.searchParams.set('obec', stav.obec.join(','));
-    if (stav.stav.length) url.searchParams.set('stav', stav.stav.join(','));
+    ['disp', 'obec', 'stav', 'kraj', 'invest'].forEach(function (k) { if (stav[k].length) url.searchParams.set(k, stav[k].join(',')); });
+    if (stav.q) url.searchParams.set('q', stav.q);
     history.replaceState(null, '', url);
   }
   if (vypis) {
     document.addEventListener('click', function (e) {
       var b = e.target.closest('[data-filtr]');
-      if (!b) return;
-      var k = b.dataset.filtr, v = b.dataset.hodnota;
-      if (k === 'kat') {
-        stav.kat = v;
-        $$('[data-filtr="kat"]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-      } else if (k === 'volne') {
-        stav.volne = !stav.volne; b.setAttribute('aria-pressed', String(stav.volne));
-      } else {
-        var i = stav[k].indexOf(v);
-        if (i > -1) stav[k].splice(i, 1); else stav[k].push(v);
-        b.setAttribute('aria-pressed', String(i < 0));
+      if (b && !b.disabled && !b.hasAttribute('data-prazdny')) {
+        var k = b.dataset.filtr, v = b.dataset.hodnota;
+        if (k === 'kat') stav.kat = stav.kat === v && b.classList.contains('u-fchip') ? '' : v;
+        else if (k === 'volne') stav.volne = !stav.volne;
+        else { var i = stav[k].indexOf(v); if (i > -1) stav[k].splice(i, 1); else stav[k].push(v); }
+        aplikuj();
+        return;
       }
-      aplikuj();
+      var r = e.target.closest('[data-rychla]');
+      if (r) {
+        var k2 = r.dataset.rychla, nove = [+r.dataset.od, +r.dataset.do];
+        stav[k2] = stav[k2] && stav[k2][0] === nove[0] && stav[k2][1] === nove[1] ? null : nove;
+        aplikuj();
+        return;
+      }
+      if (e.target.closest('[data-zavrit-filtr]')) { var d = e.target.closest('details'); if (d) d.open = false; }
+      if (e.target.closest('[data-dotaz] button')) { stav.q = ''; if (hlavickaQ) hlavickaQ.value = ''; aplikuj(); }
     });
-    $('[data-hledani]').addEventListener('submit', function (e) { e.preventDefault(); stav.q = e.target.q.value.trim(); aplikuj(); });
-    $('[data-hledani] input').addEventListener('input', function (e) { stav.q = e.target.value.trim(); aplikuj(); });
+    // Klávesnice pro kraje v SVG mapě
+    document.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('path[data-filtr]')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', { bubbles: true })); } });
+    // Posuvníky a pole rozsahů
+    $$('[data-rozsah]').forEach(function (r) {
+      var k = r.dataset.rozsah, max = +r.dataset.max, a = $('[data-konec="od"]', r), b = $('[data-konec="do"]', r);
+      var nastav = function (od, doo) { od = Math.max(0, od || 0); doo = doo && doo < max ? doo : 0; if (doo && od > doo) { var t = od; od = doo; doo = t; } stav[k] = od || doo ? [od, doo] : null; aplikuj(); };
+      a.addEventListener('input', function () { if (+a.value > +b.value) a.value = b.value; nastav(+a.value, +b.value); });
+      b.addEventListener('input', function () { if (+b.value < +a.value) b.value = a.value; nastav(+a.value, +b.value); });
+      $$('[data-pole]', r).forEach(function (p) { p.addEventListener('change', function () {
+        var c = function (s) { return +String(s).replace(/[^\d]/g, '') || 0; };
+        nastav(c($('[data-pole="od"]', r).value), c($('[data-pole="do"]', r).value));
+      }); });
+    });
+    // Hledání textem: jen pole v hlavičce webu, na této stránce filtruje živě
+    if (hlavickaQ) {
+      hlavickaQ.addEventListener('input', function () { stav.q = hlavickaQ.value.trim(); aplikuj(); });
+      hlavickaQ.form.addEventListener('submit', function (e) { e.preventDefault(); stav.q = hlavickaQ.value.trim(); aplikuj(); vypis.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    }
     $$('[data-zrusit-filtry]').forEach(function (b) { b.addEventListener('click', function () {
-      stav = { kat: '', zeme: [], obec: [], cena: [], m2: [], disp: [], stav: [], tagy: [], volne: false, q: '', oblast: null };
-      $$('[data-filtr]').forEach(function (x) { x.setAttribute('aria-pressed', x.dataset.filtr === 'kat' && !x.dataset.hodnota ? 'true' : 'false'); });
-      $('[data-hledani] input').value = ''; aplikuj();
+      stav = novyStav(); if (hlavickaQ) hlavickaQ.value = ''; aplikuj();
     }); });
     var hvo = $('[data-hledat-v-oblasti]');
     if (hvo) hvo.addEventListener('click', function () { var el = $('#u-mapa-vypis'); stav.oblast = el._map.getBounds(); hvo.hidden = true; aplikuj(); });
@@ -327,13 +407,25 @@
       ex.dataset.pohledAktivni = b.dataset.pohled === 'split' && innerWidth <= 1024 ? 'mapa' : b.dataset.pohled;
       mapy.forEach(function (el) { setTimeout(function () { el._map.resize(); }, 50); });
     }); });
-    // filtry z URL (odkazy z HP, SEO bloků a magazínu)
+    // Konfigurátor: kroky
+    var konf = document.getElementById('u-konf'), krok = 0;
+    var ukazKrok = function (i) {
+      krok = Math.max(0, Math.min(3, i));
+      $$('[data-krok]', konf).forEach(function (t) { t.setAttribute('aria-selected', String(+t.dataset.krok === krok)); });
+      $$('[data-krok-panel]', konf).forEach(function (p) { p.hidden = +p.dataset.krokPanel !== krok; });
+      $('[data-krok-posun="-1"]', konf).hidden = krok === 0;
+      $('[data-krok-posun="1"]', konf).hidden = krok === 3;
+    };
+    $$('[data-konfigurator]').forEach(function (b) { b.addEventListener('click', function () { $$('.u-fdrop[open]').forEach(function (d) { d.open = false; }); ukazKrok(0); synchronizuj(); konf.showModal(); }); });
+    $$('[data-krok]', konf).forEach(function (t) { t.addEventListener('click', function () { ukazKrok(+t.dataset.krok); }); });
+    $$('[data-krok-posun]', konf).forEach(function (t) { t.addEventListener('click', function () { ukazKrok(krok + +t.dataset.krokPosun); }); });
+    // Filtry z URL (odkazy z HP, SEO bloků, magazínu a hledání v hlavičce na jiných stránkách)
     var q = new URLSearchParams(location.search);
-    var zUrl = function (k, attr) { (q.get(k) || '').split(',').filter(Boolean).forEach(function (v) { var b = $('[data-filtr="' + attr + '"][data-hodnota="' + v + '"]'); if (b) b.click(); else if (attr === 'obec') { stav.obec.push(v); } }); };
-    if (q.get('kat')) { var kb = $('[data-filtr="kat"][data-hodnota="' + q.get('kat') + '"]'); if (kb) kb.click(); }
-    if (q.get('kategorie')) { var kb2 = $('[data-filtr="kat"][data-hodnota="' + q.get('kategorie') + '"]'); if (kb2) kb2.click(); }
-    zUrl('disp', 'disp'); zUrl('dispozice', 'disp'); zUrl('obec', 'obec'); zUrl('stav', 'stav');
-    if (q.get('q')) { stav.q = q.get('q'); $('[data-hledani] input').value = stav.q; }
+    stav.kat = q.get('kat') || q.get('kategorie') || '';
+    var zUrl = function (k, pole) { (q.get(k) || '').split(',').filter(Boolean).forEach(function (v) { if (stav[pole].indexOf(v) < 0) stav[pole].push(v); }); };
+    zUrl('disp', 'disp'); zUrl('dispozice', 'disp'); zUrl('obec', 'obec'); zUrl('stav', 'stav'); zUrl('kraj', 'kraj'); zUrl('invest', 'invest');
+    if (q.get('cenaOd') || q.get('cenaDo')) stav.cena = [+q.get('cenaOd') || 0, +q.get('cenaDo') || 0];
+    if (q.get('q')) { stav.q = q.get('q'); if (hlavickaQ) hlavickaQ.value = stav.q; }
     // Na úzkém displeji je mapa vedle seznamu skrytá — výchozí pohled je proto mřížka
     if (q.get('pohled') === 'mrizka' || innerWidth <= 1024) { var pm = $('[data-pohled="mrizka"]'); if (pm) pm.click(); }
     aplikuj();

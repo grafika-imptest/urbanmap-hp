@@ -71,6 +71,8 @@ export function lokalniOdkaz(url) {
 }
 let hp = fs.readFileSync(path.join(PUB, 'index.html'), 'utf8');
 hp = hp.replace(/(\s(?:href|action)=")https:\/\/urbanmap\.cz(\/[^"]*)?"/g, (m, a, rest) => a + lokalniOdkaz('https://urbanmap.cz' + (rest || '/').replace(/&amp;/g, '&')).replace(/&/g, '&amp;') + '"');
+// Hledání v hlavičce vede do výpisu projektů (tam filtruje živě) — jediné vyhledávací pole na webu
+hp = hp.replace(/(<form role="search" class="[^"]*(?:hlavickaHledani|drawerHledani)" action=")[^"]*(" method="get">)<input type="hidden" name="pohled" value="mapa"\/>/g, '$1projekty/$2');
 fs.writeFileSync(path.join(PUB, 'index.html'), hp);
 nactiChrome(hp);
 

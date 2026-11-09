@@ -166,11 +166,38 @@ const plans = $$(proDoc, 'cenikKarta').map((k) => ({
 }));
 const proBloky = $$(proDoc, 'blok').map((b) => ({ title: txt($(b, 'blokNadpis')), items: [...b.querySelectorAll('li, p')].map(txt).filter(Boolean) }));
 
+// --- Kraje a investiční profil ---------------------------------------------------------
+// U projektu je živý web nemá, ale umí podle nich filtrovat: členství zjistíme z filtrovaných
+// výpisů (SSR výpis obsahuje a[data-projekt]). Mapa krajů = SVG z konfigurátoru na HP.
+const kraje = [...hpDoc.querySelectorAll('svg.' + P + 'mapaKraju a[data-kraj]')].map((a) => ({
+  slug: a.dataset.kraj,
+  name: (a.getAttribute('aria-label') || '').split(' · ')[0],
+  d: [...a.querySelectorAll('path')].map((p) => p.getAttribute('d')).join(' '),
+})).filter((k, i, a) => a.findIndex((x) => x.slug === k.slug) === i); // mapa je na HP dvakrát (filtr + konfigurátor)
+const krajSvg = hpDoc.querySelector('svg.' + P + 'mapaKraju')?.getAttribute('viewBox') || '0 0 1000 569';
+const INVEST = { pronajem: 'Vhodné na pronájem', flip: 'Vhodné na flip', turisticka: 'Turistická lokalita', studentska: 'Studentská lokalita', nizky_vstup: 'Nízká vstupní cena', premium: 'Premium segment', kratkodoby_pronajem: 'Krátkodobý pronájem', yield: 'Vysoký yield', rust_lokality: 'Očekávaný růst lokality' };
+async function clenove(param) {
+  const html = await (await fetch('https://urbanmap.cz/?' + param, { headers: { 'User-Agent': 'Mozilla/5.0' } })).text();
+  return new Set([...html.matchAll(/data-projekt="(cm[a-z0-9]+)"/g)].map((m) => m[1]));
+}
+for (const k of kraje) {
+  const ids = await clenove('kraj=' + k.slug);
+  k.count = ids.size;
+  for (const p of projects) if (ids.has(p.id)) p.kraj = k.slug;
+}
+const invest = [];
+for (const [key, label] of Object.entries(INVEST)) {
+  const ids = await clenove('invest=' + key);
+  invest.push({ key, label, count: ids.size });
+  for (const p of projects) if (ids.has(p.id)) (p.invest ||= []).push(key);
+}
+for (const p of projects) { p.kraj ||= null; p.invest ||= []; }
+
 // --- Podmínky (text) --------------------------------------------------------------------
 const podDoc = load('podminky.html');
 const podminky = (podDoc.querySelector('.' + P + 'obsah article') || $(podDoc, 'obsah'))?.innerHTML || '';
 
-const out = { generated: new Date().toISOString(), projects, developers, articles, cities: [...cities.values()], lokalityKarty: lokKarty, plans, proBloky, podminkyHtml: podminky };
+const out = { generated: new Date().toISOString(), projects, developers, articles, cities: [...cities.values()], lokalityKarty: lokKarty, kraje, krajSvg, invest, plans, proBloky, podminkyHtml: podminky };
 fs.mkdirSync(path.join(ROOT, 'data'), { recursive: true });
 fs.writeFileSync(path.join(ROOT, 'data', 'site.json'), JSON.stringify(out, null, 1));
 console.log('projekty', projects.length, '| developeři', developers.length, '| články', articles.length, '| města', cities.size, '| balíčky', plans.length);
