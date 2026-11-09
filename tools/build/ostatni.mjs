@@ -1,8 +1,27 @@
 // /pro-developery/ (B2B landing, obsah a ceník ze živého webu) a /podminky/.
-import { stranka, kartaProjektu, ikona, esc, zapis, drobecky, sekceHlava, cislo } from './lib.mjs';
+import fs from 'node:fs';
+import path from 'node:path';
+import { PUB, stranka, kartaProjektu, ikona, esc, zapis, drobecky, sekceHlava, cislo } from './lib.mjs';
+
+
+// Hero = stejná sekce „Dostaňte projekt na mapu“ jako na HP (panorama s mapou, domy v popředí, padající piny),
+// jen s nadpisem jako H1 a CTA vedoucími na registraci a ceník téhle stránky.
+function heroZHP(R, { P, devs, obceSerazene }) {
+  const hp = fs.readFileSync(path.join(PUB, 'index.html'), 'utf8');
+  const z = hp.indexOf('<section class="katalog-module__1b44Qq__panorama"');
+  let h = hp.slice(z, hp.indexOf('</section>', z) + 10);
+  h = h.replace(/(src=")assets\//g, '$1' + R + 'assets/').replace(/ loading="lazy"/g, '')
+    .replace(/<p class="katalog-module__1b44Qq__panoramaClaim">[^<]*<\/p>/, '<p class="katalog-module__1b44Qq__panoramaClaim">Pro developery a kanceláře</p>')
+    .replace(/(<div class="katalog-module__1b44Qq__panoramaAkce"><p>)[^<]*(<\/p>)/, `$1Ukažte projekt kupujícím, kteří hledají podle místa: ${P.length} projektů od ${devs.length} developerů v ${obceSerazene.length} lokalitách. Zaregistrujte firmu, projekt si založíte sami a poptávky chodí přímo vám.$2`)
+    .replace(/<a class="katalog-module__1b44Qq__ctaTlacitko" href="[^"]*">[^<]*<\/a><a href="[^"]*" class="katalog-module__1b44Qq__panoramaOdkaz">[^<]*<\/a>/, '<a class="katalog-module__1b44Qq__ctaTlacitko" href="#registrace">Zaregistrovat firmu</a><a href="#cenik" class="katalog-module__1b44Qq__panoramaOdkaz">Ceník balíčků</a>')
+    .replace(/<h2 class="katalog-module__1b44Qq__panoramaNadpis"([^>]*)>([^<]*)<\/h2>/, '<h1 class="katalog-module__1b44Qq__panoramaNadpis"$1>$2</h1>')
+    .replace('class="katalog-module__1b44Qq__panorama"', 'class="katalog-module__1b44Qq__panorama u-propanorama"');
+  return h;
+}
 
 export function proDevelopery({ data, P, devs, obceSerazene }) {
   const R = '../';
+  const hero = heroZHP(R, { P, devs, obceSerazene });
   const kroky = data.proBloky.find((b) => b.title === 'Jak to funguje')?.items || [];
   const topovani = data.proBloky.find((b) => b.title === 'Topování projektu')?.items[0] || '';
   const ukazka = P.find((p) => p.images.length > 2 && p.priceFrom) || P[0];
@@ -20,16 +39,7 @@ export function proDevelopery({ data, P, devs, obceSerazene }) {
   ];
 
   const body = `
-<section class="u-prohero">
-  <div class="u-wrap u-prohero__vnitrek">
-    <div class="u-prohero__text">${drobecky(R, [['Pro developery']])}<span class="u-eyebrow u-eyebrow--svetle">Pro developery a kanceláře</span>
-      <h1 class="u-h1">Váš projekt na mapě novostaveb</h1>
-      <p class="u-lead">Urbanmap ukazuje kupujícím novostavby s ceníkem, dostupností a polohou. Zaregistrujte firmu, vyberte balíček a projekt si založíte sami: fotky, jednotky, ceník. Poptávky chodí přímo vám.</p>
-      <div class="u-row"><a class="u-btn u-btn--primarni" href="#registrace">Zaregistrovat firmu ${ikona('sipka')}</a><a class="u-btn u-btn--svetle" href="#cenik">Ceník balíčků</a></div>
-      <dl class="u-prohero__cisla"><div><dt>Projektů</dt><dd>${P.length}</dd></div><div><dt>Developerů</dt><dd>${devs.length}</dd></div><div><dt>Lokalit</dt><dd>${obceSerazene.length}</dd></div></dl></div>
-    <div class="u-prohero__ukazka" aria-hidden="true">${kartaProjektu(ukazka, R)}<div class="u-notifikace">${ikona('mail')}<span><b>Nová poptávka</b><span>${esc(ukazka.name)} · Ceník a dostupnost</span></span></div></div>
-  </div>
-</section>
+${hero}
 <section class="u-wrap u-sekce">
   ${sekceHlava({ eyebrow: 'Proč Urbanmap', nadpis: 'Kupující, kteří hledají podle místa' })}
   <div class="u-vyhody">${vyhody.map(([i, h, t]) => `<div>${ikona(i, 'u-ico u-ico--velka')}<h3 class="u-h4">${h}</h3><p>${t}</p></div>`).join('')}</div>
