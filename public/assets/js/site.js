@@ -65,6 +65,18 @@
     }, { passive: true });
   });
 
+  // Šipky na kartě: listování fotkami (dokola), bez otevření detailu projektu
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('.u-pcard__sipka');
+    if (!t) return;
+    e.preventDefault(); e.stopPropagation();
+    var k = t.parentNode.querySelector('.u-pcard__karusel');
+    var n = k.children.length, w = k.clientWidth;
+    var i = Math.round(k.scrollLeft / w) + Number(t.dataset.foto);
+    if (i < 0) i = n - 1; else if (i >= n) i = 0;
+    k.scrollTo({ left: i * w, behavior: 'smooth' });
+  });
+
   // --- Uložit / porovnat --------------------------------------------------------------------
   function prepni(attr, klic, max) {
     var vybrane = store.get(klic);

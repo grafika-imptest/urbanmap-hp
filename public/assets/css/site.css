@@ -123,7 +123,7 @@ form.je-odeslano .u-dialog__hotovo { display: grid !important; }
 .u-pcard { position: relative; display: flex; flex-direction: column; background: var(--k-surface-2); border-radius: var(--k-r); overflow: hidden; border: 1px solid var(--k-line-soft); transition: box-shadow .25s, transform .25s; }
 .u-pcard:hover, .u-pcard.je-zvyraznena { box-shadow: var(--k-sh-3); transform: translateY(-3px); }
 .u-pcard.je-zvyraznena { outline: 2px solid var(--k-accent); outline-offset: 0; }
-.u-pcard__foto { position: relative; aspect-ratio: 4 / 3; background: var(--k-paper-2); }
+.u-pcard__foto { position: relative; aspect-ratio: 4 / 3; min-height: 0; overflow: hidden; flex: none; background: var(--k-paper-2); } /* overflow: fotka na výšku jinak rámeček natáhne a karta vyroste */
 .u-pcard__karusel { display: flex; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .u-pcard__karusel::-webkit-scrollbar { display: none; }
 .u-pcard__karusel img { flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; scroll-snap-align: start; }
@@ -803,3 +803,12 @@ form.je-odeslano .u-dialog__hotovo { display: grid !important; }
 @media (min-width: 64rem) {
   .u-propanorama .katalog-module__1b44Qq__panoramaAkce { background: #ffffffa6; -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); padding: 20px 22px 22px; border-radius: 18px; box-shadow: 0 12px 40px -18px #0b2a4a59; max-width: 24rem; }
 }
+
+/* Šipky pro listování fotkami na kartě — ukážou se při najetí myší (na dotyku se listuje tahem) */
+.u-pcard__sipka { position: absolute; top: 50%; z-index: 2; display: grid; place-items: center; width: 36px; height: 36px; margin-top: -18px; padding: 0; border: 0; border-radius: 50%; background: #ffffffeb; color: #15171a; box-shadow: 0 6px 16px -6px #0000004d; cursor: pointer; opacity: 0; transition: opacity .2s, transform .2s, background-color .2s; }
+.u-pcard__sipka .u-ico { width: 18px; height: 18px; }
+.u-pcard__sipka--zpet { left: 10px; transform: translateX(-6px); }
+.u-pcard__sipka--dal { right: 10px; transform: translateX(6px); }
+.u-pcard:hover .u-pcard__sipka, .u-pcard__sipka:focus-visible { opacity: 1; transform: none; }
+.u-pcard__sipka:hover { background: #fff; }
+@media (hover: none) { .u-pcard__sipka { display: none; } }

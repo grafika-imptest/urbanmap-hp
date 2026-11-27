@@ -238,6 +238,7 @@ export function kartaProjektu(p, R, { velka = false } = {}) {
   return `<article class="u-pcard${velka ? ' u-pcard--velka' : ''}" ${attrs}>
 <div class="u-pcard__foto"><div class="u-pcard__karusel" tabindex="-1">${foto.map((u, i) => `<img src="${R}${media(u, 640)}" alt="${i ? '' : esc(p.name)}" loading="lazy" decoding="async"/>`).join('')}</div>
 ${foto.length > 1 ? `<div class="u-pcard__tecky" aria-hidden="true">${foto.map((_, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</div>` : ''}
+${foto.length > 1 ? `<button type="button" class="u-pcard__sipka u-pcard__sipka--zpet" data-foto="-1" aria-label="Předchozí fotka">${ikona('zpet')}</button><button type="button" class="u-pcard__sipka u-pcard__sipka--dal" data-foto="1" aria-label="Další fotka">${ikona('sipka')}</button>` : ''}
 <div class="u-pcard__horni">${stitekStavu(p)}${kat.slice(0, 1).map((k) => `<span class="u-kat" style="--barva:${KATEGORIE[k].barva}">${esc(k)}</span>`).join('')}</div>
 <div class="u-pcard__akce"><button type="button" class="u-ikbtn" data-ulozit="${p.id}" aria-label="Uložit projekt" aria-pressed="false">${ikona('srdce')}</button><button type="button" class="u-ikbtn" data-porovnat="${p.id}" aria-label="Přidat k porovnání" aria-pressed="false">${ikona('porovnat')}</button></div></div>
 <a class="u-pcard__telo" href="${R}projekt/${p.id}/">
