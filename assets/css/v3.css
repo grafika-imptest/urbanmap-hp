@@ -48,11 +48,17 @@ body[data-verze="3"] .v3-hero { padding-top: clamp(28px, 3.5vw, 48px); }
 .v3-hero__scena { display: grid; grid-template-columns: minmax(180px, 250px) minmax(0, 1fr); gap: 8px; align-items: center; margin-top: clamp(20px, 2.6vw, 32px); }
 /* Hledání plave nahoře přímo v mapě */
 .v3-hledani { position: absolute; z-index: 3; left: 50%; top: 22px; translate: -50% 0; width: min(calc(100% - 40px), 34rem); margin: 0; }
-.v3-hero__urbi { position: relative; display: grid; justify-items: center; align-self: center; padding-top: 90px; }
+.v3-hero__urbi { position: relative; z-index: 5; display: grid; justify-items: center; align-self: center; padding-top: 90px; padding-bottom: 34px; }
+/* Stín na „podlaze“ — když Urbi vyletí nahoru, stín se zmenší a zesvětlí (stejný rytmus jako vznášení) */
+.v3-stin { position: absolute; left: 50%; bottom: 6px; width: 62%; height: 22px; translate: -40% 0; border-radius: 50%; background: radial-gradient(closest-side, #0b4a2659, #0b4a2626 55%, transparent); filter: blur(2px); animation: v3-stin 5s ease-in-out infinite; pointer-events: none; }
+@keyframes v3-stin { 50% { transform: scale(.72); opacity: .55; } }
 .v3-bublina { left: -6px; top: 0; max-width: 15.5rem; animation-delay: .6s; }
-.v3-maskot--ukazuje { width: 112%; max-width: 300px; margin-right: -14%; animation: v2-vznaseni 5s ease-in-out infinite; }
-.v3-hero__mapa { position: relative; border-radius: 32px; padding: 6px; background: var(--v3-grad); box-shadow: 0 40px 80px -40px #0b5a2f59, 0 4px 14px -6px #0b5a2f26; }
-.v3-hero__mapa .u-map { height: clamp(440px, calc(100svh - 300px), 640px); border-radius: 27px; overflow: hidden; }
+.v3-maskot--ukazuje { position: relative; width: 112%; max-width: 300px; margin-right: -22%; filter: drop-shadow(0 10px 14px #1d3b2a26); animation: v3-let 5s ease-in-out infinite; }
+@keyframes v3-let { 50% { transform: translateY(-16px) rotate(-1deg); } }
+/* Mapa bez silného rámu: tenký světlý lem, měkký stín a jemná zelená záře za kartou */
+.v3-hero__mapa { position: relative; z-index: 1; isolation: isolate; border-radius: 30px; background: #fff; box-shadow: 0 0 0 1px #078c441f, 0 1px 0 8px #ffffffb3, 0 36px 80px -36px #0b5a2f66, 0 8px 20px -12px #0b5a2f2e; }
+.v3-hero__mapa::before { content: ""; position: absolute; z-index: -1; inset: -28px -20px -36px; border-radius: 60px; background: radial-gradient(60% 70% at 30% 40%, #bfe9cf99, transparent 70%), radial-gradient(50% 60% at 80% 70%, #cdeee499, transparent 70%); filter: blur(28px); }
+.v3-hero__mapa .u-map { height: clamp(440px, calc(100svh - 300px), 640px); border-radius: 30px; overflow: hidden; }
 .v3-hero__stitek { position: absolute; z-index: 2; left: 22px; bottom: 26px; display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; background: #ffffffeb; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: 0 8px 20px -12px #0000004d; font-weight: 600; font-size: .9rem; color: var(--v2-ink); }
 .v3-hero__stitek i { width: 8px; height: 8px; border-radius: 50%; background: var(--v3-grad); box-shadow: 0 0 0 4px #18a45826; }
 .v3-hero__otevrit { position: absolute; z-index: 2; right: 22px; bottom: 22px; }
@@ -60,15 +66,19 @@ body[data-verze="3"] .v3-hero { padding-top: clamp(28px, 3.5vw, 48px); }
 .v3-rychle { justify-content: center; margin-top: 20px; }
 .v3-hero .v2-cisla { margin-top: 28px; }
 
+@media (prefers-reduced-motion: reduce) { .v3-stin, .v3-maskot--ukazuje { animation: none; } }
 @media (max-width: 64rem) {
   .v3-hero__scena { grid-template-columns: 1fr; }
   .v3-hero__urbi { grid-template-columns: auto 1fr; align-items: center; justify-items: start; padding-top: 0; gap: 8px; }
   .v3-maskot--ukazuje { width: 150px; margin: 0; grid-row: 1; }
+  .v3-hero__urbi { padding-bottom: 18px; }
+  .v3-stin { left: 75px; width: 110px; translate: -50% 0; bottom: 4px; }
   .v3-bublina { position: relative; left: 0; top: 0; grid-column: 2; grid-row: 1; }
 }
 @media (max-width: 40rem) {
   .v3-hero__hlava { justify-items: start; text-align: left; }
   .v3-maskot--ukazuje { width: 110px; }
+  .v3-stin { left: 55px; width: 80px; }
   .v3-hero__mapa .u-map { height: 460px; }
   .v3-hledani { top: 12px; width: calc(100% - 24px); flex-wrap: nowrap; border-radius: 999px; padding: 6px 6px 6px 14px; }
   .v3-hledani .v2-btn { width: auto; height: 42px; padding: 0 16px; }
