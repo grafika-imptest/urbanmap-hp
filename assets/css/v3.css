@@ -256,3 +256,15 @@ body[data-verze="3"] .v2-dev::before, body[data-verze="3"] .v2-hlidani::before {
   background: linear-gradient(100deg in oklch, #06803f 0%, #18a458 60%, #4cc184 100%); -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: .05em; }
 .v3-cisla dt { margin-top: 6px; font-size: .78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--v2-ink-60); }
 @media (max-width: 64rem) { .v3-cisla { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 24px; } }
+
+/* Úvod: nahoře do modré (petrolejová → zelená) a víc meruňkové oranžové */
+body[data-verze="3"] .v2-hero {
+  background:
+    linear-gradient(180deg, #fdfefc00 0%, #fdfefc00 52%, #fdfefc59 66%, #fdfefcd9 82%, var(--v2-papir) 94%),
+    radial-gradient(42% 46% at 100% 4%, #f7a07294 0%, #f7a07240 42%, transparent 72%),
+    radial-gradient(32% 34% at 88% 40%, #f7a0723d 0%, transparent 70%),
+    radial-gradient(30% 30% at 0% 58%, #f7a07233 0%, transparent 70%),
+    radial-gradient(55% 45% at 22% 0%, #1f6fa866 0%, transparent 70%),
+    radial-gradient(45% 55% at 12% 52%, #1d9a5559 0%, transparent 70%),
+    linear-gradient(180deg, #0b2a44 0%, #0a3a3c 22%, #073d21 48%, #0b5230 72%, #0f6a3a 100%);
+}
