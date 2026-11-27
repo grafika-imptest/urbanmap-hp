@@ -131,7 +131,9 @@
       map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: 'OpenFreeMap · OpenStreetMap' }));
       el._map = map; el._body = body; el._markery = {};
       mapy.push(el);
-      var popup = new maplibregl.Popup({ closeButton: false, offset: 24, className: 'u-mpopup', maxWidth: '320px' });
+      // focusAfterOpen: false — jinak MapLibre po otevření popupu zaměří odkaz v něm a prohlížeč
+      // stránku přeroluje k mapě (při najetí na kartu níž na stránce to „vracelo“ scroll nahoru)
+      var popup = new maplibregl.Popup({ closeButton: false, offset: 24, className: 'u-mpopup', maxWidth: '320px', focusAfterOpen: false });
       el._popup = popup;
       var ukazPopup = function (b) {
         popup.setLngLat([b.lon, b.lat]).setHTML('<a href="' + b.h + '">' + (b.i ? '<img src="' + b.i + '" alt="">' : '<span></span>') + '<span><b>' + b.n + '</b><span>' + b.c + '</span></span></a>').addTo(map);
@@ -215,7 +217,10 @@
       var m = el._markery[c.dataset.id];
       if (m) { m.getElement().classList.add('je-zvyraznena'); }
       var b = el._body.filter(function (x) { return x.id === c.dataset.id; })[0];
-      if (b && el._popup) el._popup.setLngLat([b.lon, b.lat]).setHTML('<a href="' + b.h + '">' + (b.i ? '<img src="' + b.i + '" alt="">' : '') + '<span><b>' + b.n + '</b><span>' + b.c + '</span></span></a>').addTo(el._map);
+      // popup jen u mapy, která je právě vidět (na HP je mapa daleko od karet)
+      var r = el.getBoundingClientRect();
+      var videt = r.bottom > 0 && r.top < window.innerHeight;
+      if (b && el._popup && videt) el._popup.setLngLat([b.lon, b.lat]).setHTML('<a href="' + b.h + '">' + (b.i ? '<img src="' + b.i + '" alt="">' : '') + '<span><b>' + b.n + '</b><span>' + b.c + '</span></span></a>').addTo(el._map);
     });
   });
   document.addEventListener('mouseout', function (e) {
