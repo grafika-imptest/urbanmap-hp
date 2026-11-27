@@ -1,0 +1,72 @@
+/* Urbanmap — HP verze 3: „fresh“ gradient zelená → limetka → oranžová.
+   Inspirace portu.cz: jedno písmo ve dvou řezech (400/600), těsný prostrkání nadpisů,
+   gradient na zvýrazněných slovech a velkých číslech, jemně tónované plochy sekcí.
+   Na rozdíl od Portu jde gradient i do primárních tlačítek (zadání). Stavíme nad v2.css. */
+body[data-verze="3"] {
+  --v3-zelena: #078c44; --v3-limetka: #8cc63f; --v3-oranzova: #f28a2e;
+  /* Interpolace v OKLCH vede přes svěží limetku místo kalné olivové */
+  --v3-grad: linear-gradient(100deg in oklch, #078c44 0%, #3db54e 45%, #f2962e 100%);
+  --v3-grad-text: linear-gradient(95deg in oklch, #078c44 10%, #5bbd3c 55%, #ee8a24 100%);
+  --v3-grad-jemny: linear-gradient(120deg in oklch, #e9f8ee 0%, #f4f9e6 50%, #fff1e2 100%);
+  --v2-papir: #fffefb;
+}
+
+/* Typografie podle Portu: polotučné nadpisy, těsnější prostrkání */
+body[data-verze="3"] .v2-h1 { font-weight: 600; letter-spacing: -.05em; }
+body[data-verze="3"] .v2-h2 { font-weight: 600; letter-spacing: -.04em; }
+body[data-verze="3"] .v2-h1 em, body[data-verze="3"] .v2-h2 em {
+  background: var(--v3-grad-text); -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding-bottom: .06em; /* aby gradient nesekl ocásky g, j, p */
+}
+body[data-verze="3"] .v2-eyebrow { color: var(--v3-zelena); }
+
+/* Tlačítka — gradient, při najetí se posune k oranžové */
+body[data-verze="3"] .v2-btn--zelene,
+body[data-verze="3"] .u-navcta {
+  background: var(--v3-grad); background-size: 130% 100%; background-position: 0 0; color: #fff;
+  text-shadow: 0 1px 2px #0a3d1f40;
+  box-shadow: 0 12px 28px -12px #3db54ea6, 0 10px 30px -18px #f2962e99, inset 0 1px 0 #ffffff40;
+  transition: background-position .5s cubic-bezier(.2, .8, .2, 1), transform .2s, box-shadow .2s;
+}
+body[data-verze="3"] .v2-btn--zelene:hover,
+body[data-verze="3"] .u-navcta:hover { background: var(--v3-grad); background-size: 130% 100%; background-position: 100% 0; transform: translateY(-2px); box-shadow: 0 18px 36px -14px #3db54eb3, 0 16px 40px -18px #f2962eb3, inset 0 1px 0 #ffffff40; }
+body[data-verze="3"] .v2-btn--svetle { position: relative; background: #fff; box-shadow: none; border: 2px solid transparent; background: linear-gradient(#fff, #fff) padding-box, var(--v3-grad) border-box; }
+body[data-verze="3"] .v2-odkaz { border: 1.5px solid transparent; background: linear-gradient(#fff, #fff) padding-box, linear-gradient(100deg, #078c4440, #f2962e55) border-box; }
+body[data-verze="3"] .v2-odkaz:hover { background: linear-gradient(#fff, #fff) padding-box, var(--v3-grad) border-box; }
+
+/* Hero */
+body[data-verze="3"] .v2-hero { background: linear-gradient(180deg, #f1fbf3 0%, #fbfcf2 45%, var(--v2-papir) 85%); }
+body[data-verze="3"] .v2-hero__blob--a { background: radial-gradient(circle, #c4ecd0, transparent 68%); }
+body[data-verze="3"] .v2-hero__blob--b { width: 40vw; height: 40vw; background: radial-gradient(circle, #ffd9ae, transparent 66%); opacity: .9; }
+body[data-verze="3"] .v2-hero__kruh { background: radial-gradient(circle at 30% 25%, #fff 0%, #effae9 40%, #ffe9cf 100%); box-shadow: inset 0 -24px 60px #f2962e1f, 0 40px 80px -40px #3db54e66; }
+body[data-verze="3"] .v2-hero__kruh::after { content: ""; position: absolute; inset: -10px; border-radius: 50%; padding: 2px; background: conic-gradient(from 200deg, transparent 0 55%, #3db54e 75%, #f2962e 92%, transparent 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: v3-otoc 14s linear infinite; }
+@keyframes v3-otoc { to { transform: rotate(1turn); } }
+body[data-verze="3"] .v2-chip i { background: var(--v3-grad); box-shadow: 0 0 0 4px #8cc63f2e; }
+body[data-verze="3"] .v2-hledani:focus-within { box-shadow: var(--v2-stin), 0 0 0 2px #3db54e; }
+body[data-verze="3"] .v2-hledani > .u-ico { color: var(--v3-zelena); }
+body[data-verze="3"] .v2-rychle a:hover { background: var(--v3-grad-jemny); }
+
+/* Čísla — gradientní jako výnos na Portu */
+body[data-verze="3"] .v2-cisla dd { justify-self: start; font-weight: 600; background: var(--v3-grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* Kategorie: ikona na gradientu */
+body[data-verze="3"] .v2-kat__ikona { color: #fff; background: var(--v3-grad); box-shadow: 0 10px 20px -10px #3db54e99; }
+
+/* Mapa — jemně tónovaná plocha jako sekce Portu, gradientní rámeček */
+body[data-verze="3"] .v2-mapablok { background: var(--v3-grad-jemny); }
+body[data-verze="3"] .v2-mapablok__mapa { border: 0; padding: 6px; background: var(--v3-grad); }
+body[data-verze="3"] .v2-mapablok__mapa .u-map { border-radius: 26px; }
+
+/* Lokality — gradientní linka pod názvem */
+body[data-verze="3"] .v2-mesto__text b { background: linear-gradient(90deg, #fff, #fff) left bottom / 0 2px no-repeat; transition: background-size .4s; padding-bottom: 2px; }
+body[data-verze="3"] .v2-mesto:hover .v2-mesto__text b { background-image: var(--v3-grad); background-size: 100% 3px; }
+
+/* Hlídání a pro developery — svěží přechod zelená → broskev */
+body[data-verze="3"] .v2-hlidani { background: radial-gradient(90% 140% at 0% 0%, #fff 0%, transparent 60%), var(--v3-grad-jemny); box-shadow: inset 0 0 0 1px #8cc63f40; }
+body[data-verze="3"] .v2-dev { background: radial-gradient(80% 140% at 100% 0%, #ffe2bf 0%, transparent 60%), linear-gradient(120deg in oklch, #f3fbf1, #fff4e6); box-shadow: inset 0 0 0 1px #f2962e33; }
+body[data-verze="3"] .v2-clanek__meta { color: var(--v3-zelena); }
+
+/* Přepínač verzí — aktivní položka v gradientu */
+body[data-verze="3"] .u-verze a[aria-current] { background: var(--v3-grad); }
+
+@media (prefers-reduced-motion: reduce) { body[data-verze="3"] .v2-hero__kruh::after { animation: none; } }

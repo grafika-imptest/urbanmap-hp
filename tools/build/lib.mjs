@@ -185,7 +185,7 @@ ${mapa ? '<script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/
 }
 
 // Přepínač verzí návrhu (vlevo dole) — současná HP vs. verze 2 (světlejší, s maskotem)
-export const prepinacVerze = (R, aktivni) => `<nav class="u-verze" aria-label="Verze návrhu"><span class="u-verze__popis">Návrh</span><a href="${R}index.html"${aktivni === '1' ? ' aria-current="page"' : ''}>Současná</a><a href="${R}v2/"${aktivni === '2' ? ' aria-current="page"' : ''}>Verze 2</a></nav>`;
+export const prepinacVerze = (R, aktivni) => `<nav class="u-verze" aria-label="Verze návrhu"><span class="u-verze__popis">Návrh</span><a href="${R}index.html"${aktivni === '1' ? ' aria-current="page"' : ''}>Současná</a><a href="${R}v2/"${aktivni === '2' ? ' aria-current="page"' : ''}>Verze 2</a><a href="${R}v3/"${aktivni === '3' ? ' aria-current="page"' : ''}>Verze 3</a></nav>`;
 
 // Společné dialogy: poptávka a hlídací pes. Nic neodesílají — náhled UI.
 function dialogy() {

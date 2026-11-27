@@ -7,7 +7,7 @@ const M = (R, n) => `${R}assets/img/maskot/${n}.webp`;
 // Pastelové plochy kategorií (barvu ikony bere z tokenů katalogu)
 const PASTEL = { 'Rezidenční': '#fff1e8', 'Investiční': '#e8f6fb', 'Rekreační': '#e9f8ee', 'Luxusní': '#f3edff', 'Rodinné domy': '#fff8de' };
 
-export function hpV2({ P, devs, obceSerazene, articles }) {
+export function hpV2({ P, devs, obceSerazene, articles }, verze = '2') {
   const R = '../';
   const volne = P.reduce((a, p) => a + (p.unitsAvailable || 0), 0);
   const sFotkou = P.filter((p) => p.images.length);
@@ -108,6 +108,6 @@ export function hpV2({ P, devs, obceSerazene, articles }) {
   </div>
 </section>`;
 
-  const head = `<link rel="stylesheet" href="${R}assets/css/v2.css"/>`;
-  zapis('v2/index.html', stranka({ R, title: 'Urbanmap – Nový domov začíná na mapě (verze 2)', description: 'Katalog novostaveb na mapě: byty a domy přímo od developerů s cenou, dostupností a polohou.', body, mapa: true, bodyAttr: 'data-stranka="v2" data-verze="2"', head, verze: '2' }));
+  const head = `<link rel="stylesheet" href="${R}assets/css/v2.css"/>${verze === '3' ? `<link rel="stylesheet" href="${R}assets/css/v3.css"/>` : ''}`;
+  zapis(`v${verze}/index.html`, stranka({ R, title: `Urbanmap – Nový domov začíná na mapě (verze ${verze})`, description: 'Katalog novostaveb na mapě: byty a domy přímo od developerů s cenou, dostupností a polohou.', body, mapa: true, bodyAttr: `data-stranka="v${verze}" data-verze="${verze}"`, head, verze }));
 }

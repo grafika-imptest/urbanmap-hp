@@ -82,7 +82,8 @@ if (!hp.includes('u-navcta')) {
 }
 nactiChrome(hp);
 // Přepínač verzí návrhu (současná / verze 2) — jen do HP, chrome pro podstránky se bere bez něj
-if (!hp.includes('class="u-verze"')) hp = hp.replace('</main>', '</main>' + prepinacVerze('', '1'));
+hp = hp.replace(/<nav class="u-verze"[\s\S]*?<\/nav>/, '');
+hp = hp.replace('</main>', '</main>' + prepinacVerze('', '1'));
 fs.writeFileSync(path.join(PUB, 'index.html'), hp);
 
 // --- Stránky ----------------------------------------------------------------------------------
@@ -97,6 +98,7 @@ for (const a of ctx.articles) clanek(ctx, a);
 proDevelopery(ctx);
 podminky(ctx);
 hpV2(ctx);
+hpV2(ctx, '3');
 
 await stahniMedia();
 console.log(`hotovo: ${P.length} projektů, ${obce.size} lokalit, ${devs.length} developerů, ${ctx.articles.length} článků`);
