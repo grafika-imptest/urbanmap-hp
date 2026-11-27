@@ -1,13 +1,13 @@
 /* Urbanmap — HP verze 2: světlejší, veselejší, luxusnější. Maskot Urbi, teplá bílá, pastelové plochy,
    Instrument Serif kurzíva jako luxusní akcent k Urbanistu. Načítá se jen na /v2/. */
-body[data-verze="2"] {
+body[data-verze] {
   --v2-papir: #fffdf9; --v2-krem: #fbf6ee; --v2-mata: #eaf7ef; --v2-mata-2: #d6f0e0; --v2-nebe: #eaf4fb;
   --v2-zelena: #088e45; --v2-zelena-2: #067a3b; --v2-ink: #15171a; --v2-ink-60: #5d6168; --v2-linka: #ece6dc;
   --v2-serif: "Instrument Serif", Georgia, serif; --v2-r: 28px; --v2-stin: 0 24px 60px -30px #1d3b2a40, 0 2px 6px -2px #1d3b2a14;
   background: var(--v2-papir);
 }
-body[data-verze="2"] .katalog-module__1b44Qq__stranka { background: var(--v2-papir); --k-paper: var(--v2-papir); --k-surface: #fff; }
-body[data-verze="2"] .katalog-module__1b44Qq__hlavicka { background: color-mix(in srgb, #fffdf9 82%, transparent); border-bottom-color: #0000; box-shadow: 0 1px 0 #ece6dc; }
+body[data-verze] .katalog-module__1b44Qq__stranka { background: var(--v2-papir); --k-paper: var(--v2-papir); --k-surface: #fff; }
+body[data-verze] .katalog-module__1b44Qq__hlavicka { background: color-mix(in srgb, #fffdf9 82%, transparent); border-bottom-color: #0000; box-shadow: 0 1px 0 #ece6dc; }
 .v2-wrap { width: min(1280px, 100% - 2 * var(--k-gutter, 24px)); margin-inline: auto; }
 .v2-sekce { padding-block: clamp(56px, 7vw, 104px) 0; }
 .v2-sekce--posledni { padding-bottom: clamp(64px, 8vw, 120px); }
@@ -165,7 +165,7 @@ body[data-verze="2"] .katalog-module__1b44Qq__hlavicka { background: color-mix(i
   .v2-dev { grid-template-columns: 1fr; }
   .v2-maskot--klic { width: 180px; justify-self: end; margin-top: -20px; }
 }
-@media (prefers-reduced-motion: reduce) { body[data-verze="2"] * { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { body[data-verze] * { animation: none !important; } }
 .v2-karty { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 @media (max-width: 64rem) { .v2-karty { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 40rem) { .v2-karty { grid-template-columns: 1fr; } }
