@@ -63,7 +63,7 @@ export function hpV2({ P, devs, obceSerazene, articles }, verze = '2') {
   <div class="v2-wrap v3-hero__scena">
     <div class="v3-hero__urbi" aria-hidden="true">
       <div class="v2-bublina v3-bublina">Ahoj, já jsem <b>Urbi</b>! Tady jsou všechny novostavby. Klikněte na místo, které vás zajímá.</div>
-      <img class="v2-maskot v3-maskot--ukazuje" src="${M(R, 'ukazuje')}" alt="" width="720" height="676" fetchpriority="high"/>
+      <span class="v3-stin"></span><img class="v2-maskot v3-maskot--ukazuje" src="${M(R, 'ukazuje')}" alt="" width="720" height="676" fetchpriority="high"/>
     </div>
     <div class="v3-hero__mapa">
       ${mapa(P.map((p) => bodProjektu(p, R)), { zaber: 'cz', ukazka: true })}
