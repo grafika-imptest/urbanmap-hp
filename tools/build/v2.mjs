@@ -23,6 +23,13 @@ export function hpV2({ P, devs, obceSerazene, articles }, verze = '2') {
     return { k, n: P.filter((p) => kategorieProjektu(p).includes(k)).length, foto: vyber?.images[0] };
   }).filter((x) => x.n);
   const mesta = obceSerazene.filter((o) => o.foto.length).slice(0, 5);
+  const pocetObec = (n) => P.filter((p) => p.obec === n).length;
+  const URBI_RYCHLE = {
+    'Praha': `V Praze je ${pocetObec('Praha')} projektů.`, 'Brno': `V Brně je ${pocetObec('Brno')} projektů. Nejvíc na mapě!`, 'Plzeň': `V Plzni je ${pocetObec('Plzeň')} ${plural(pocetObec('Plzeň'), 'projekt', 'projekty', 'projektů')}.`,
+    'Do 5 mil. Kč': `Do 5 milionů začíná ${P.filter((p) => p.priceFrom && p.priceFrom <= 5e6).length} projektů.`,
+    'Na investici': `Investičních projektů je ${P.filter((p) => kategorieProjektu(p).includes('Investiční')).length}.`,
+    'Rodinné domy': `Rodinných domů je ${P.filter((p) => kategorieProjektu(p).includes('Rodinné domy')).length}.`,
+  };
   const rychle = [
     ['Praha', `${R}projekty/?obec=Praha`], ['Brno', `${R}projekty/?obec=Brno`], ['Plzeň', `${R}projekty/?obec=Plze%C5%88`],
     ['Do 5 mil. Kč', `${R}projekty/?cenaDo=5000000`], ['Na investici', `${R}projekty/?kat=investicni`], ['Rodinné domy', `${R}projekty/?kat=rodinne`],
@@ -61,9 +68,9 @@ export function hpV2({ P, devs, obceSerazene, articles }, verze = '2') {
     <p class="v2-lead">Byty a domy přímo od developerů — s cenou, dostupností a polohou. Najděte místo, kde chcete bydlet.</p>
   </div>
   <div class="v2-wrap v3-hero__scena">
-    <div class="v3-hero__urbi" aria-hidden="true">
-      <div class="v2-bublina v3-bublina">Ahoj, já jsem <b>Urbi</b>! Tady jsou všechny novostavby. Klikněte na místo, které vás zajímá.</div>
-      <span class="v3-stin"></span><img class="v2-maskot v3-maskot--ukazuje" src="${M(R, 'ukazuje')}" alt="" width="720" height="676" fetchpriority="high"/>
+    <div class="v3-hero__urbi" data-urbi='${esc(JSON.stringify(P.map((p) => [p.name, p.city, p.developer.name, p.obec].join(' | '))))}'>
+      <div class="v2-bublina v3-bublina" aria-live="polite"><span data-urbi-text>Ahoj, já jsem <b>Urbi</b>! Tady jsou všechny novostavby. Klikněte na místo, které vás zajímá.</span><button type="button" class="v3-bublina__zavrit" data-urbi-zavrit aria-label="Skrýt Urbiho bublinu">×</button></div>
+      <span class="v3-stin"></span><img class="v2-maskot v3-maskot--ukazuje" data-urbi-poza="ukazuje" data-lupa="${M(R, 'lupa')}" src="${M(R, 'ukazuje')}" alt="" width="720" height="676" fetchpriority="high"/>
     </div>
     <div class="v3-hero__mapa">
       ${mapa(P.map((p) => bodProjektu(p, R)), { zaber: 'cz', ukazka: true })}
@@ -72,7 +79,7 @@ export function hpV2({ P, devs, obceSerazene, articles }, verze = '2') {
       <a class="v2-btn v2-btn--zelene v3-hero__otevrit" href="${R}projekty/?pohled=mapa">Otevřít celou mapu ${ikona('mapa')}</a>
     </div>
   </div>
-  <div class="v2-wrap v2-rychle v3-rychle" aria-label="Rychlé hledání">${rychle.map(([t, h]) => `<a href="${h}">${esc(t)}</a>`).join('')}</div>
+  <div class="v2-wrap v2-rychle v3-rychle" aria-label="Rychlé hledání">${rychle.map(([t, h]) => `<a href="${h}" data-urbi-rekne="${esc(URBI_RYCHLE[t] || '')}">${esc(t)}</a>`).join('')}</div>
   <div class="v2-wrap"><dl class="v2-cisla">
     <div><dt>Projektů</dt><dd>${P.length}</dd></div><div><dt>Developerů</dt><dd>${devs.length}</dd></div>
     <div><dt>Volných jednotek</dt><dd>${cislo(volne)}</dd></div><div><dt>Lokalit</dt><dd>${obceSerazene.length}</dd></div>
@@ -133,6 +140,6 @@ ${verze === '3' ? '' : `<section class="v2-mapablok">
   </div>
 </section>`;
 
-  const head = `<link rel="stylesheet" href="${R}assets/css/v2.css"/>${verze === '3' ? `<link rel="stylesheet" href="${R}assets/css/v3.css"/>` : ''}`;
+  const head = `<link rel="stylesheet" href="${R}assets/css/v2.css"/>${verze === '3' ? `<link rel="stylesheet" href="${R}assets/css/v3.css"/><script src="${R}assets/js/v3.js" defer></script>` : ''}`;
   zapis(`v${verze}/index.html`, stranka({ R, title: `Urbanmap – Nový domov začíná na mapě (verze ${verze})`, description: 'Katalog novostaveb na mapě: byty a domy přímo od developerů s cenou, dostupností a polohou.', body, mapa: true, bodyAttr: `data-stranka="v${verze}" data-verze="${verze}"`, head, verze }));
 }
