@@ -127,7 +127,7 @@ ${verze === '3' ? '' : `<section class="v2-mapablok">
 <section class="v2-wrap v2-sekce">
   <div class="v2-hlava"><div><span class="v2-eyebrow">Lokality</span><h2 class="v2-h2">Kde se teď <em>nejvíc staví</em></h2></div><a class="v2-odkaz" href="${R}lokality/">Všechny lokality ${ikona('sipka')}</a></div>
   <div class="v2-mesta">${mesta.map((o, i) => `<a class="v2-mesto${i === 0 ? ' v2-mesto--velke' : ''}" href="${R}lokalita/${o.slug}/"><img src="${R}${media(o.foto[0], i === 0 ? 1200 : 640)}" alt="" loading="lazy"/>
-    <span class="v2-mesto__text"><b>${esc(o.name)}</b><span>${o.projekty.length} ${plural(o.projekty.length, 'projekt', 'projekty', 'projektů')}${o.cenaOd ? ` · od ${mil(o.cenaOd)}` : ''}</span></span></a>`).join('')}</div>
+    <span class="v2-mesto__text"><b>${esc(o.name)}</b>${verze === '3' ? `<span class="v3-mesto__fakta"><span><small>Projekty</small><b>${o.projekty.length}</b></span><span><small>Volných</small><b>${cislo(o.volne)}</b></span>${o.cenaOd ? `<span><small>Cena od</small><b class="v3-mesto__cena">${mil(o.cenaOd)}</b></span>` : ''}</span>` : `<span>${o.projekty.length} ${plural(o.projekty.length, 'projekt', 'projekty', 'projektů')}${o.cenaOd ? ` · od ${mil(o.cenaOd)}` : ''}</span>`}</span></a>`).join('')}</div>
 </section>
 
 <section class="v2-wrap v2-sekce">
