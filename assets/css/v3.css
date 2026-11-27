@@ -336,3 +336,14 @@ body[data-verze="3"] .katalog-module__1b44Qq__paticka {
 }
 body[data-verze="3"] .u-page { padding-bottom: 0; }
 body[data-verze="3"] .v2-sekce--posledni { padding-bottom: clamp(24px, 3vw, 48px); }
+
+/* Lokality: údaje jako na současné HP — Projekty / Volných / zvýrazněná Cena od */
+.v3-mesto__fakta { display: flex; align-items: flex-end; gap: 6px clamp(14px, 1.6vw, 26px); flex-wrap: wrap; margin-top: 10px; padding-top: 10px; border-top: 1px solid #ffffff33; }
+.v3-mesto__fakta > span { display: grid; gap: 2px; }
+.v3-mesto__fakta small { font-size: .75rem; opacity: .75; }
+.v3-mesto__fakta b { font-family: var(--k-display); font-size: 1.35rem; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
+.v3-mesto__fakta .v3-mesto__cena { padding: 2px 9px; margin-left: -2px; border-radius: 8px; background: var(--v3-grad); box-shadow: 0 6px 16px -8px #0b8a44aa; }
+.v2-mesto--velke .v3-mesto__fakta b { font-size: 1.9rem; }
+body[data-verze="3"] .v2-mesto::after { background: linear-gradient(180deg, transparent 35%, #0d1f15cc); }
+body[data-verze="3"] .v3-mesto__fakta b { background: none; padding-bottom: 0; }
+body[data-verze="3"] .v3-mesto__fakta b.v3-mesto__cena { background: var(--v3-grad); padding: 2px 9px; }
