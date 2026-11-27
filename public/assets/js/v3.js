@@ -147,6 +147,7 @@
     // tmavá část úvodu končí zhruba v polovině sekce (pak přechází do světla)
     var tmavyKonec = hero.getBoundingClientRect().top + hero.offsetHeight * 0.5;
     hlavicka.classList.toggle('v3-tmava', tmavyKonec > hlavicka.offsetHeight);
+    hlavicka.classList.toggle('v3-odrolovano', window.scrollY > 8);
   }
   prepni();
   window.addEventListener('scroll', function () { if (!cekam) cekam = requestAnimationFrame(prepni); }, { passive: true });
