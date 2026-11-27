@@ -370,32 +370,3 @@ body[data-verze="3"] .katalog-module__1b44Qq__paticka {
     radial-gradient(40% 40% at 55% 40%, #1f6fa833 0%, transparent 70%),
     linear-gradient(180deg, #0b2238 0%, #0a2433 45%, #082a22 80%, #06231a 100%);
 }
-
-/* Koláž budov z nabídky (výřezy z vizualizací projektů) po stranách čísel */
-.v3-cisla-scena { position: relative; padding-block: clamp(20px, 3vw, 60px) clamp(40px, 5vw, 90px); }
-.v3-cisla-scena .v3-cisla { position: relative; z-index: 2; }
-.v3-domy { position: absolute; top: 0; bottom: 0; width: clamp(260px, 26vw, 470px); pointer-events: none; z-index: 1; }
-.v3-domy--l { left: 0; }
-.v3-domy--p { right: 0; }
-.v3-dum { position: absolute; height: auto; filter: drop-shadow(0 22px 24px #1d3b2a33); opacity: 0; transform: translateY(30px) scale(.96); transition: opacity .8s cubic-bezier(.2, .8, .2, 1), transform .9s cubic-bezier(.2, .8, .2, 1); }
-.v3-cisla-scena.je-videt .v3-dum { opacity: 1; transform: none; }
-.v3-dum--a { width: 62%; left: -4%; bottom: 8%; transition-delay: .05s; }
-.v3-dum--b { width: 58%; left: 34%; bottom: 0; z-index: 2; transition-delay: .18s; }
-.v3-dum--c { width: 44%; left: 8%; bottom: 46%; z-index: 0; opacity: 0; transition-delay: .3s; }
-.v3-cisla-scena.je-videt .v3-dum--c { opacity: .9; }
-.v3-dum--d { width: 60%; right: -6%; bottom: 6%; transition-delay: .1s; }
-.v3-dum--e { width: 56%; right: 34%; bottom: 0; z-index: 2; transition-delay: .24s; }
-/* mezi domy jen čísla — na užších šířkách domy menší, na tabletu/mobilu pryč */
-@media (max-width: 87.5rem) { .v3-domy { width: clamp(200px, 20vw, 300px); } .v3-dum--c { display: none; } }
-@media (max-width: 64rem) { .v3-domy { display: none; } }
-@media (prefers-reduced-motion: reduce) { .v3-dum { transition: none; opacity: 1; transform: none; } }
-/* větší koláž: domy vyplní boční pásy od rychlých voleb dolů */
-.v3-cisla-scena { padding-block: clamp(40px, 5vw, 90px) clamp(60px, 7vw, 120px); }
-.v3-domy { top: -18%; bottom: -10%; width: clamp(300px, 27vw, 520px); }
-.v3-dum--a { width: 70%; left: -6%; bottom: 4%; }
-.v3-dum--b { width: 64%; left: 36%; bottom: -4%; }
-.v3-dum--c { width: 52%; left: 14%; bottom: 44%; }
-.v3-dum--d { width: 70%; right: -8%; bottom: 2%; }
-.v3-dum--e { width: 66%; right: 32%; bottom: -6%; }
-/* spodní okraje výřezů jemně do ztracena (sníh, trávník) */
-.v3-dum { -webkit-mask-image: linear-gradient(180deg, #000 78%, #0000 100%); mask-image: linear-gradient(180deg, #000 78%, #0000 100%); }
