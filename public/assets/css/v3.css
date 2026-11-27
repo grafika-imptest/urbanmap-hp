@@ -324,3 +324,15 @@ body[data-verze="3"] .v2-dev::before, body[data-verze="3"] .v2-hlidani::before {
   opacity: .42; filter: grayscale(1) invert(1) contrast(1.6) brightness(1);
   -webkit-mask-image: linear-gradient(100deg, #0009 0%, #000c 35%, #000 65%); mask-image: linear-gradient(100deg, #0009 0%, #000c 35%, #000 65%);
 }
+
+/* Patička: tmavě modrá místo černé + plynulý přechod ze světlé stránky (jako úvod) */
+body[data-verze="3"] .u-page::after { content: ""; display: block; height: clamp(120px, 14vw, 220px); margin-top: clamp(-40px, -3vw, -20px);
+  background: linear-gradient(180deg, #0b223800 0%, #0b223814 25%, #0b22384d 50%, #0b2238b3 78%, #0b2238 100%); }
+body[data-verze="3"] .katalog-module__1b44Qq__paticka {
+  background:
+    radial-gradient(40% 50% at 100% 0%, #f7a07224 0%, transparent 70%),
+    radial-gradient(45% 55% at 0% 30%, #1d9a5526 0%, transparent 70%),
+    linear-gradient(180deg, #0b2238 0%, #0a1c2e 60%, #07141f 100%);
+}
+body[data-verze="3"] .u-page { padding-bottom: 0; }
+body[data-verze="3"] .v2-sekce--posledni { padding-bottom: clamp(24px, 3vw, 48px); }
