@@ -122,3 +122,11 @@ html .pismodisplay_c3a09d25-module__eK5-Ma__variable {
 /* Piny jedou s mapovou scénou při scroll paralaxe (stejný posun jako .panoramaScena) */
 .kopie-piny { translate: 0 var(--px, 0); will-change: translate; }
 @media (prefers-reduced-motion: reduce) { .kopie-piny, .katalog-module__1b44Qq__panoramaScena, .katalog-module__1b44Qq__panoramaNadpis, .katalog-module__1b44Qq__panoramaHorni { translate: none; } }
+
+/* Přepínač verzí návrhu — vlevo dole na HP i verzi 2 */
+.u-verze { position: fixed; z-index: 60; left: 16px; bottom: 16px; display: flex; align-items: center; gap: 4px; padding: 5px; border-radius: 999px; background: #ffffffe6; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 8px 28px -10px #0b2a1a40, 0 0 0 1px #0000000f; font: 600 .8125rem/1 Urbanist, system-ui, sans-serif; }
+.u-verze__popis { padding: 0 8px 0 10px; color: #6b6b70; font-weight: 500; }
+.u-verze a { padding: 9px 14px; border-radius: 999px; color: #121214; text-decoration: none; transition: background-color .15s; }
+.u-verze a:hover { background: #088e4514; }
+.u-verze a[aria-current] { background: #088e45; color: #fff; }
+@media (max-width: 40rem) { .u-verze { left: 10px; bottom: 10px; } .u-verze__popis { display: none; } }
