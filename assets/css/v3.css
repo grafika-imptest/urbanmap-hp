@@ -30,15 +30,46 @@ body[data-verze="3"] .v2-btn--svetle { border: 1.5px solid transparent; box-shad
 body[data-verze="3"] .v2-odkaz:hover { border-color: #18a458; }
 
 /* Plochy */
-body[data-verze="3"] .v2-hero { background: linear-gradient(180deg, #eef9f2 0%, #f3faf7 50%, var(--v2-papir) 100%); padding-bottom: clamp(32px, 4vw, 56px); }
-body[data-verze="3"] .v2-hero__blob--a { background: radial-gradient(circle, #c9eed7, transparent 68%); }
-body[data-verze="3"] .v2-hero__blob--b { background: radial-gradient(circle, #d9f1ea, transparent 68%); }
+/* Hero bez předělu: barvy jsou jen radiální záře, které do papíru doběhnou dávno před koncem sekce,
+   a sekce ořezává jen do stran (svisle záře volně přetékají do další sekce). */
+body[data-verze="3"] .v2-hero {
+  overflow: visible; overflow-x: clip; padding-bottom: clamp(32px, 4vw, 56px);
+  background:
+    radial-gradient(70% 55% at 12% 0%, #e3f6ea 0%, transparent 70%),
+    radial-gradient(55% 45% at 100% 0%, #ffe7d1 0%, #fff2e6 35%, transparent 72%),
+    radial-gradient(60% 50% at 50% 30%, #f1faf4 0%, transparent 75%),
+    var(--v2-papir);
+}
+body[data-verze="3"] .v2-hero__blob--a { left: -12vw; right: auto; top: -10vw; background: radial-gradient(circle, #cdeed9, transparent 68%); opacity: .7; }
+/* oranžová záře vpravo nahoře, aby úvod nebyl jen zelený */
+body[data-verze="3"] .v2-hero__blob--b { left: auto; right: -12vw; bottom: auto; top: -16vw; width: 48vw; height: 48vw; background: radial-gradient(circle, #ffd3ab, transparent 66%); opacity: .75; }
 body[data-verze="3"] .v2-chip i { background: var(--v3-grad); }
 body[data-verze="3"] .v2-cisla dd { justify-self: start; font-weight: 600; background: var(--v3-grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
 body[data-verze="3"] .v2-kat__ikona { color: #fff; background: var(--v3-grad); box-shadow: 0 10px 20px -10px #0b8a4480; }
 body[data-verze="3"] .v2-hlidani { background: radial-gradient(90% 140% at 0% 0%, #fff 0%, transparent 60%), var(--v3-grad-jemny); }
 body[data-verze="3"] .v2-dev { background: radial-gradient(80% 140% at 100% 0%, #ffffff 0%, transparent 55%), linear-gradient(125deg in oklch, #f2faf4, #f7f9f0); box-shadow: inset 0 0 0 1px #078c4424; }
 body[data-verze="3"] .u-verze a[aria-current] { background: var(--v3-grad); }
+
+/* --- Druhá barva CTA: mandarinková oranžová ---
+   Pravidlo: zelená = hledání a procházení, oranžová = konverze (poptávka, hlídání, registrace, přidat projekt).
+   Tmavý text na oranžové kvůli čitelnosti (kontrast > 7:1), bílý by na oranžové neprošel. */
+body[data-verze="3"] {
+  --v3-oranz: linear-gradient(105deg in oklch, #ff7a3d 0%, #ff9a45 100%);
+  --v3-oranz-ink: #2b1407;
+}
+body[data-verze="3"] .u-navcta,
+body[data-verze="3"] .v2-hlidani__form .v2-btn--zelene,
+body[data-verze="3"] .v2-dev__akce .v2-btn--zelene {
+  background: var(--v3-oranz); background-size: 140% 100%; color: var(--v3-oranz-ink); text-shadow: none;
+  box-shadow: 0 12px 28px -12px #ff7a3d99, inset 0 1px 0 #ffffff59;
+}
+body[data-verze="3"] .u-navcta:hover,
+body[data-verze="3"] .v2-hlidani__form .v2-btn--zelene:hover,
+body[data-verze="3"] .v2-dev__akce .v2-btn--zelene:hover {
+  background: var(--v3-oranz); background-size: 140% 100%; background-position: 100% 0; box-shadow: 0 18px 36px -14px #ff7a3db3, inset 0 1px 0 #ffffff59;
+}
+body[data-verze="3"] .v2-karty .u-pcard__zajem { border-color: #ffd2b4; background: #fff5ee; color: #a5410f; }
+body[data-verze="3"] .v2-karty .u-pcard__zajem:hover { border-color: transparent; background: var(--v3-oranz); color: var(--v3-oranz-ink); }
 
 /* --- Hero s mapou: nadpis nahoře, Urbi vlevo ukazuje na velkou mapu --- */
 body[data-verze="3"] .v3-hero { padding-top: clamp(28px, 3.5vw, 48px); }
