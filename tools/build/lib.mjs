@@ -170,7 +170,7 @@ export function nactiChrome(hpHtml) {
 // Odkazy z HP (už relativní k rootu) přepočteme na hloubku stránky.
 const prefixuj = (html, R) => (R ? html.replace(/(\s(?:href|src|action)=")(?!https?:|mailto:|tel:|#|\/\/|data:)([^"]*)"/g, (m, a, u) => `${a}${R}${u}"`) : html);
 
-export function stranka({ R = '', title, description = '', active = '', body, mapa = false, bodyAttr = '', ogImage = '' }) {
+export function stranka({ R = '', title, description = '', active = '', body, mapa = false, bodyAttr = '', ogImage = '', head = '', verze = '' }) {
   if (!chrome) throw new Error('nactiChrome() nezavoláno');
   let header = prefixuj(chrome.header, R);
   if (active) header = header.replace(new RegExp(`(<a class="${P}navOdkaz") (href="[^"]*${active}[^"]*")`), `$1 aria-current="page" $2`);
@@ -178,11 +178,14 @@ export function stranka({ R = '', title, description = '', active = '', body, ma
 <title>${esc(title)}</title><meta name="description" content="${esc(description)}"/><meta property="og:title" content="${esc(title)}"/><meta property="og:description" content="${esc(description)}"/>${ogImage ? `<meta property="og:image" content="${R}${ogImage}"/>` : ''}
 ${chrome.css.map((h) => `<link rel="stylesheet" href="${R}${h}"/>`).join('')}
 <link rel="icon" type="image/svg+xml" href="${R}assets/img/logo/favicon.svg"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&amp;display=swap"/>
-<link rel="stylesheet" href="${R}assets/css/kopie.css"/><link rel="stylesheet" href="${R}assets/css/site.css"/>
-${chrome.tema}</head><body ${bodyAttr}><main class="${P}stranka">${header}<div class="u-page">${body}</div>${prefixuj(chrome.footer, R)}${prefixuj(chrome.cookie, R)}</main>
+<link rel="stylesheet" href="${R}assets/css/kopie.css"/><link rel="stylesheet" href="${R}assets/css/site.css"/>${head}
+${chrome.tema}</head><body ${bodyAttr}><main class="${P}stranka">${header}<div class="u-page">${body}</div>${prefixuj(chrome.footer, R)}${prefixuj(chrome.cookie, R)}</main>${verze ? prepinacVerze(R, verze) : ''}
 ${dialogy()}
 ${mapa ? '<script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.js"></script>' : ''}<script>window.UM_R=${JSON.stringify(R)};</script><script src="${R}assets/js/kopie.js"></script><script src="${R}assets/js/site.js"></script></body></html>`;
 }
+
+// Přepínač verzí návrhu (vlevo dole) — současná HP vs. verze 2 (světlejší, s maskotem)
+export const prepinacVerze = (R, aktivni) => `<nav class="u-verze" aria-label="Verze návrhu"><span class="u-verze__popis">Návrh</span><a href="${R}index.html"${aktivni === '1' ? ' aria-current="page"' : ''}>Současná</a><a href="${R}v2/"${aktivni === '2' ? ' aria-current="page"' : ''}>Verze 2</a></nav>`;
 
 // Společné dialogy: poptávka a hlídací pes. Nic neodesílají — náhled UI.
 function dialogy() {

@@ -3,13 +3,14 @@
 // Použití: node tools/build.mjs
 import fs from 'node:fs';
 import path from 'node:path';
-import { PUB, ROOT, obecZ, slugify, zeme, nactiChrome, stahniMedia, vzdalenostKm } from './build/lib.mjs';
+import { PUB, ROOT, obecZ, slugify, zeme, nactiChrome, stahniMedia, vzdalenostKm, prepinacVerze } from './build/lib.mjs';
 import { projekty } from './build/projekty.mjs';
 import { detailProjektu } from './build/projekt.mjs';
 import { lokality, detailLokality } from './build/lokality.mjs';
 import { developeri, detailDevelopera } from './build/developeri.mjs';
 import { magazin, clanek } from './build/magazin.mjs';
 import { proDevelopery, podminky } from './build/ostatni.mjs';
+import { hpV2 } from './build/v2.mjs';
 
 const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'site.json'), 'utf8'));
 
@@ -79,8 +80,10 @@ if (!hp.includes('u-navcta')) {
   hp = hp.replace('<details class="katalog-module__1b44Qq__drawer">', `<a class="u-navcta" href="pro-developery/">${PIN}<span>Přidat projekt</span></a><details class="katalog-module__1b44Qq__drawer">`);
   hp = hp.replace(/(<div class="katalog-module__1b44Qq__drawerPanel">[\s\S]*?)(<\/div><\/details>)/, `$1<a class="u-navcta u-navcta--drawer" href="pro-developery/">${PIN}<span>Přidat projekt na mapu</span></a>$2`);
 }
-fs.writeFileSync(path.join(PUB, 'index.html'), hp);
 nactiChrome(hp);
+// Přepínač verzí návrhu (současná / verze 2) — jen do HP, chrome pro podstránky se bere bez něj
+if (!hp.includes('class="u-verze"')) hp = hp.replace('</main>', '</main>' + prepinacVerze('', '1'));
+fs.writeFileSync(path.join(PUB, 'index.html'), hp);
 
 // --- Stránky ----------------------------------------------------------------------------------
 projekty(ctx);
@@ -93,6 +96,7 @@ magazin(ctx);
 for (const a of ctx.articles) clanek(ctx, a);
 proDevelopery(ctx);
 podminky(ctx);
+hpV2(ctx);
 
 await stahniMedia();
 console.log(`hotovo: ${P.length} projektů, ${obce.size} lokalit, ${devs.length} developerů, ${ctx.articles.length} článků`);
