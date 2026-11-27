@@ -184,3 +184,25 @@ body[data-verze="3"] .v2-clanek img { aspect-ratio: 16 / 10; }
 .v3-stin { opacity: .55; }
 @media (max-width: 64rem) { .v3-hero__urbi::before { left: 75px; width: 170px; top: 50%; } .v3-hero__urbi::after { display: none; } }
 @media (max-width: 40rem) { .v3-hero__urbi::before { left: 55px; width: 125px; } }
+
+/* --- Úvod: tmavě zelená přes celou sekci, dolů se ztrácí do světlého pozadí ---
+   Urbi i světlá mapa na tmavém podkladu vyniknou; poslední vrstva (nahoře v seznamu) dělá plynulý doběh. */
+body[data-verze="3"] .v2-hero {
+  background:
+    linear-gradient(180deg, #fdfefc00 0%, #fdfefc00 52%, #fdfefc59 66%, #fdfefcd9 82%, var(--v2-papir) 94%),
+    radial-gradient(40% 38% at 100% 0%, #f7a07238 0%, transparent 70%),
+    radial-gradient(45% 55% at 12% 48%, #1d9a5566 0%, transparent 70%),
+    radial-gradient(60% 50% at 60% 10%, #13703f66 0%, transparent 70%),
+    linear-gradient(180deg, #042a16 0%, #073d21 40%, #0b5230 70%, #0f6a3a 100%);
+}
+body[data-verze="3"] .v2-hero__blob { display: none; }
+body[data-verze="3"] .v3-hero .v2-h1 { color: #fff; }
+body[data-verze="3"] .v3-hero .v2-h1 em { background: linear-gradient(100deg, #7fe0a6, #c9f5d9); -webkit-background-clip: text; background-clip: text; color: transparent; }
+body[data-verze="3"] .v3-hero .v2-lead { color: #ffffffb8; }
+/* místo tvrdého kruhu jen jemná světlá záře za Urbim, aby se odlepil od tmavého pozadí */
+.v3-hero__urbi::before { background: radial-gradient(circle, #3fc47a40 0%, #3fc47a14 45%, transparent 70%); filter: blur(10px); opacity: 1; }
+.v3-hero__urbi::after { display: none; }
+.v3-stin { background: radial-gradient(closest-side, #00000080, #00000033 55%, transparent); }
+/* mapa na tmavém: světlejší lem a hlubší stín */
+body[data-verze="3"] .v3-hero__mapa { box-shadow: 0 0 0 1px #ffffff26, 0 1px 0 8px #ffffff1f, 0 40px 90px -40px #000000a6, 0 8px 24px -12px #00000059; }
+body[data-verze="3"] .v3-hero__mapa::before { display: none; }
