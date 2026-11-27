@@ -347,3 +347,15 @@ body[data-verze="3"] .v2-sekce--posledni { padding-bottom: clamp(24px, 3vw, 48px
 body[data-verze="3"] .v2-mesto::after { background: linear-gradient(180deg, transparent 35%, #0d1f15cc); }
 body[data-verze="3"] .v3-mesto__fakta b { background: none; padding-bottom: 0; }
 body[data-verze="3"] .v3-mesto__fakta b.v3-mesto__cena { background: var(--v3-grad); padding: 2px 9px; }
+
+/* Patička: odstíny zelené a oranžové jako v úvodu */
+body[data-verze="3"] .katalog-module__1b44Qq__paticka {
+  background:
+    radial-gradient(38% 42% at 100% 12%, #f7a07270 0%, #f7a07226 45%, transparent 72%),
+    radial-gradient(30% 34% at 78% 88%, #f7a07238 0%, transparent 70%),
+    radial-gradient(45% 55% at 6% 40%, #1d9a5566 0%, transparent 70%),
+    radial-gradient(55% 45% at 35% 100%, #0f6a3a80 0%, transparent 72%),
+    radial-gradient(40% 40% at 55% 30%, #1f6fa833 0%, transparent 70%),
+    linear-gradient(180deg, #0b2238 0%, #0a2433 45%, #082a22 80%, #06231a 100%);
+}
+body[data-verze="3"] .katalog-module__1b44Qq__patickaLista { background: transparent; }
