@@ -153,12 +153,3 @@
   window.addEventListener('scroll', function () { if (!cekam) cekam = requestAnimationFrame(prepni); }, { passive: true });
   window.addEventListener('resize', prepni);
 })();
-
-// Budovy kolem čísel nastoupí, když sekce přijde do záběru
-(function () {
-  var sc = document.querySelector('.v3-cisla-scena');
-  if (!sc) return;
-  if (!window.IntersectionObserver) { sc.classList.add('je-videt'); return; }
-  var io = new IntersectionObserver(function (z) { if (z[0].isIntersecting) { sc.classList.add('je-videt'); io.disconnect(); } }, { threshold: .25 });
-  io.observe(sc);
-})();
