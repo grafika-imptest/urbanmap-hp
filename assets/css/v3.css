@@ -359,3 +359,14 @@ body[data-verze="3"] .katalog-module__1b44Qq__paticka {
     linear-gradient(180deg, #0b2238 0%, #0a2433 45%, #082a22 80%, #06231a 100%);
 }
 body[data-verze="3"] .katalog-module__1b44Qq__patickaLista { background: transparent; }
+/* horní hrana patičky čistě tmavě modrá (navazuje na přechod ze stránky), záře začínají až níž */
+body[data-verze="3"] .katalog-module__1b44Qq__paticka {
+  background:
+    linear-gradient(180deg, #0b2238 0%, #0b2238e6 6%, #0b223800 30%),
+    radial-gradient(38% 42% at 100% 34%, #f7a07270 0%, #f7a07226 45%, transparent 72%),
+    radial-gradient(30% 34% at 78% 88%, #f7a07238 0%, transparent 70%),
+    radial-gradient(45% 55% at 6% 48%, #1d9a5566 0%, transparent 70%),
+    radial-gradient(55% 45% at 35% 100%, #0f6a3a80 0%, transparent 72%),
+    radial-gradient(40% 40% at 55% 40%, #1f6fa833 0%, transparent 70%),
+    linear-gradient(180deg, #0b2238 0%, #0a2433 45%, #082a22 80%, #06231a 100%);
+}
