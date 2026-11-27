@@ -237,3 +237,22 @@ body[data-verze="3"] .v2-hero {
   body[data-verze="3"] .v2-dev .v2-h2 { white-space: nowrap; }
   body[data-verze="3"] .v2-dev__text p { max-width: 44rem; }
 }
+
+/* Tmavé sekce (pro developery, hlídání): jemná mapa z panoramatu HP přes multiply, aby plocha nebyla prázdná */
+body[data-verze="3"] .v2-dev, body[data-verze="3"] .v2-hlidani { isolation: isolate; overflow: hidden; }
+body[data-verze="3"] .v2-dev::before, body[data-verze="3"] .v2-hlidani::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: url("../img/panorama-95775c.webp") 50% 62% / cover no-repeat;
+  mix-blend-mode: multiply; opacity: .55; filter: grayscale(1) contrast(1.15);
+  -webkit-mask-image: linear-gradient(100deg, #0006 0%, #000a 35%, #000 70%); mask-image: linear-gradient(100deg, #0006 0%, #000a 35%, #000 70%);
+}
+
+/* Čísla v úvodu — styl Portu: velká čísla v přechodu, drobný popisek, bez ikon a boxů */
+.v3-cisla { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px clamp(32px, 6vw, 110px); margin: clamp(32px, 3.5vw, 52px) auto 0; padding-top: clamp(24px, 2.5vw, 36px); position: relative; }
+.v3-cisla::before { content: ""; position: absolute; top: 0; left: 50%; translate: -50% 0; width: min(100%, 900px); height: 1px; background: linear-gradient(90deg, transparent, #078c4440 20%, #f7a07259 50%, #078c4440 80%, transparent); }
+.v3-cisla > div { display: grid; justify-items: center; grid-template-columns: none; padding: 0; text-align: center; }
+.v3-cisla > div + div::before { display: none; }
+.v3-cisla dd { margin: 0; font-family: var(--k-display); font-weight: 600; font-size: clamp(2.6rem, 4.4vw, 4.4rem); line-height: 1; letter-spacing: -.05em; font-variant-numeric: tabular-nums;
+  background: linear-gradient(100deg in oklch, #06803f 0%, #18a458 60%, #4cc184 100%); -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: .05em; }
+.v3-cisla dt { margin-top: 6px; font-size: .78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--v2-ink-60); }
+@media (max-width: 64rem) { .v3-cisla { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 24px; } }
