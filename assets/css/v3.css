@@ -283,3 +283,19 @@ body[data-verze="3"] .v3-tmava .katalog-module__1b44Qq__hlavickaHledani input::p
 body[data-verze="3"] .v3-tmava .katalog-module__1b44Qq__burger span { background: #fff; }
 /* úvod navazuje na hlavičku stejnou barvou */
 body[data-verze="3"] .v3-hero { margin-top: 0; }
+
+/* Úvod nahoře černý jako patička (místo modré) a pozadí úvodu běží i pod hlavičkou — žádný předěl */
+body[data-verze="3"] .v2-hero {
+  margin-top: -64px; padding-top: calc(64px + clamp(28px, 3.5vw, 48px));
+  background:
+    linear-gradient(180deg, #fdfefc00 0%, #fdfefc00 52%, #fdfefc59 66%, #fdfefcd9 82%, var(--v2-papir) 94%),
+    radial-gradient(42% 46% at 100% 4%, #f7a07285 0%, #f7a07238 42%, transparent 72%),
+    radial-gradient(32% 34% at 88% 40%, #f7a0723d 0%, transparent 70%),
+    radial-gradient(30% 30% at 0% 58%, #f7a07233 0%, transparent 70%),
+    radial-gradient(45% 55% at 12% 52%, #1d9a5559 0%, transparent 70%),
+    linear-gradient(180deg, #000 0%, #04140b 18%, #062c18 40%, #0b5230 70%, #0f6a3a 100%);
+}
+/* tmavá hlavička je průhledná — je přes ni vidět pozadí úvodu */
+body[data-verze="3"] .katalog-module__1b44Qq__hlavicka.v3-tmava { background: transparent; }
+/* když obsah úvodu jede pod hlavičkou, dostane tmavé rozmazané pozadí (čitelnost menu) */
+body[data-verze="3"] .katalog-module__1b44Qq__hlavicka.v3-tmava.v3-odrolovano { background: #000000b8; -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); }
