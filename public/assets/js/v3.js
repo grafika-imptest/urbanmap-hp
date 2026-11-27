@@ -135,3 +135,20 @@
   }, { threshold: .6 });
   cisla.forEach(function (c) { io.observe(c); });
 })();
+
+// Hlavička je tmavá, dokud je pod ní tmavá horní část úvodu
+(function () {
+  var hlavicka = document.querySelector('.katalog-module__1b44Qq__hlavicka');
+  var hero = document.querySelector('.v3-hero');
+  if (!hlavicka || !hero) return;
+  var cekam = 0;
+  function prepni() {
+    cekam = 0;
+    // tmavá část úvodu končí zhruba v polovině sekce (pak přechází do světla)
+    var tmavyKonec = hero.getBoundingClientRect().top + hero.offsetHeight * 0.5;
+    hlavicka.classList.toggle('v3-tmava', tmavyKonec > hlavicka.offsetHeight);
+  }
+  prepni();
+  window.addEventListener('scroll', function () { if (!cekam) cekam = requestAnimationFrame(prepni); }, { passive: true });
+  window.addEventListener('resize', prepni);
+})();

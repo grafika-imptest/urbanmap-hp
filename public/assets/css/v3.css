@@ -268,3 +268,18 @@ body[data-verze="3"] .v2-hero {
     radial-gradient(45% 55% at 12% 52%, #1d9a5559 0%, transparent 70%),
     linear-gradient(180deg, #0b2a44 0%, #0a3a3c 22%, #073d21 48%, #0b5230 72%, #0f6a3a 100%);
 }
+
+/* Hlavička nad tmavým úvodem: invertovaná, splyne s úvodem (třídu .v3-tmava přepíná v3.js podle scrollu) */
+body[data-verze="3"] .katalog-module__1b44Qq__hlavicka { transition: background-color .35s, box-shadow .35s, border-color .35s; }
+body[data-verze="3"] .katalog-module__1b44Qq__hlavicka.v3-tmava { background: #0b2a44; border-bottom-color: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+body[data-verze="3"] .v3-tmava .kopie-logo { color: #fff; }
+body[data-verze="3"] .v3-tmava .katalog-module__1b44Qq__navOdkaz { color: #ffffffc7; }
+body[data-verze="3"] .v3-tmava .katalog-module__1b44Qq__navOdkaz:hover,
+body[data-verze="3"] .v3-tmava .katalog-module__1b44Qq__navOdkaz[aria-current] { color: #fff; background: #ffffff1a; }
+body[data-verze="3"] .v3-tmava .katalog-module__1b44Qq__hlavickaHledani { background: #ffffff14; border-color: #ffffff2e; color: #ffffffa6; }
+body[data-verze="3"] .v3-tmava .katalog-module__1b44Qq__hlavickaHledani:focus-within { border-color: #ffffff80; }
+body[data-verze="3"] .v3-tmava .katalog-module__1b44Qq__hlavickaHledani input { color: #fff; }
+body[data-verze="3"] .v3-tmava .katalog-module__1b44Qq__hlavickaHledani input::placeholder { color: #ffffff8c; }
+body[data-verze="3"] .v3-tmava .katalog-module__1b44Qq__burger span { background: #fff; }
+/* úvod navazuje na hlavičku stejnou barvou */
+body[data-verze="3"] .v3-hero { margin-top: 0; }
