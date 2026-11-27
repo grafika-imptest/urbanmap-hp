@@ -89,12 +89,12 @@ export function hpV2({ P, devs, obceSerazene, articles }, verze = '2') {
     </div>
   </div>
   <div class="v2-wrap v2-rychle v3-rychle" aria-label="Rychlé hledání">${rychle.map(([t, h]) => `<a href="${h}" data-urbi-rekne="${esc(URBI_RYCHLE[t] || '')}">${esc(t)}</a>`).join('')}</div>
-  <div class="v2-wrap"><dl class="v3-cisla">
+  <div class="v3-cisla-scena"><div class="v3-domy v3-domy--l" aria-hidden="true"><img class="v3-dum v3-dum--a" src="${R}assets/img/domy/mestanka.webp" alt="" loading="lazy"/><img class="v3-dum v3-dum--b" src="${R}assets/img/domy/rezidence3.webp" alt="" loading="lazy"/><img class="v3-dum v3-dum--c" src="${R}assets/img/domy/kopecek.webp" alt="" loading="lazy"/></div><div class="v3-domy v3-domy--p" aria-hidden="true"><img class="v3-dum v3-dum--d" src="${R}assets/img/domy/blansko.webp" alt="" loading="lazy"/><img class="v3-dum v3-dum--e" src="${R}assets/img/domy/zahumenice.webp" alt="" loading="lazy"/></div><div class="v2-wrap"><dl class="v3-cisla">
     <div><dd data-pocitej="${P.length}">${P.length}</dd><dt>projektů na mapě</dt></div>
     <div><dd data-pocitej="${devs.length}">${devs.length}</dd><dt>developerů</dt></div>
     <div><dd data-pocitej="${volne}">${cislo(volne)}</dd><dt>volných jednotek</dt></div>
     <div><dd data-pocitej="${obceSerazene.length}">${obceSerazene.length}</dd><dt>lokalit</dt></div>
-  </dl></div>
+  </dl></div></div>
 </section>`;
   const body = `
 ${verze === '3' ? heroV3 : heroV2}
