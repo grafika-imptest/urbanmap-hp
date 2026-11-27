@@ -89,9 +89,11 @@ export function hpV2({ P, devs, obceSerazene, articles }, verze = '2') {
     </div>
   </div>
   <div class="v2-wrap v2-rychle v3-rychle" aria-label="Rychlé hledání">${rychle.map(([t, h]) => `<a href="${h}" data-urbi-rekne="${esc(URBI_RYCHLE[t] || '')}">${esc(t)}</a>`).join('')}</div>
-  <div class="v2-wrap"><dl class="v2-cisla">
-    <div><dt>Projektů</dt><dd>${P.length}</dd></div><div><dt>Developerů</dt><dd>${devs.length}</dd></div>
-    <div><dt>Volných jednotek</dt><dd>${cislo(volne)}</dd></div><div><dt>Lokalit</dt><dd>${obceSerazene.length}</dd></div>
+  <div class="v2-wrap"><dl class="v3-cisla">
+    <div><span class="v3-cisla__ikona">${ikona('mapa')}</span><dd>${P.length}</dd><dt>projektů na mapě</dt></div>
+    <div><span class="v3-cisla__ikona">${ikona('budova')}</span><dd>${devs.length}</dd><dt>developerů</dt></div>
+    <div><span class="v3-cisla__ikona v3-cisla__ikona--oranz">${ikona('klic')}</span><dd>${cislo(volne)}</dd><dt>volných jednotek</dt></div>
+    <div><span class="v3-cisla__ikona">${ikona('pin')}</span><dd>${obceSerazene.length}</dd><dt>lokalit</dt></div>
   </dl></div>
 </section>`;
   const body = `
