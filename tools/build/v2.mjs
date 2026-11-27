@@ -12,7 +12,7 @@ export function hpV2({ P, devs, obceSerazene, articles }, verze = '2') {
   const volne = P.reduce((a, p) => a + (p.unitsAvailable || 0), 0);
   const sFotkou = P.filter((p) => p.images.length);
   // Doporučené = v prodeji s nejvíce volnými jednotkami (stejné pořadí jako výpis „Doporučené“)
-  const doporucene = sFotkou.filter((p) => p.status === 'v_prodeji').sort((a, b) => (b.unitsAvailable || 0) - (a.unitsAvailable || 0)).slice(0, 6);
+  const doporucene = sFotkou.filter((p) => p.status === 'v_prodeji').sort((a, b) => (b.unitsAvailable || 0) - (a.unitsAvailable || 0)).slice(0, verze === '3' ? 8 : 6);
   const [hA, hB, hC] = doporucene;
   // Každá kategorie jinou fotku — projekt může mít víc kategorií, ať se snímky neopakují
   const pouzite = new Set();
