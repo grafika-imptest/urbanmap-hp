@@ -69,8 +69,8 @@ body[data-verze="3"] .v2-hlidani__form .v2-btn--zelene:hover,
 body[data-verze="3"] .v2-dev__akce .v2-btn--zelene:hover {
   background: var(--v3-oranz); background-size: 140% 100%; background-position: 100% 0; box-shadow: 0 14px 30px -14px #e8875480, inset 0 1px 0 #ffffff66;
 }
-body[data-verze="3"] .v2-karty .u-pcard__zajem { border-color: #f6dccb; background: #fff8f3; color: #9a4a1f; }
-body[data-verze="3"] .v2-karty .u-pcard__zajem:hover { border-color: transparent; background: var(--v3-oranz); color: var(--v3-oranz-ink); }
+body[data-verze="3"] .v2-karty .u-pcard__zajem { border-color: transparent; background: var(--v3-oranz); background-size: 140% 100%; color: var(--v3-oranz-ink); box-shadow: 0 10px 24px -14px #e8875466, inset 0 1px 0 #ffffff66; transition: background-position .5s cubic-bezier(.2, .8, .2, 1), box-shadow .2s, transform .2s; }
+body[data-verze="3"] .v2-karty .u-pcard__zajem:hover { border-color: transparent; background: var(--v3-oranz); background-size: 140% 100%; background-position: 100% 0; color: var(--v3-oranz-ink); transform: translateY(-1px); box-shadow: 0 14px 30px -14px #e8875480, inset 0 1px 0 #ffffff66; }
 
 /* --- Hero s mapou: nadpis nahoře, Urbi vlevo ukazuje na velkou mapu --- */
 body[data-verze="3"] .v3-hero { padding-top: clamp(28px, 3.5vw, 48px); }
