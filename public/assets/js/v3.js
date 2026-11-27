@@ -114,3 +114,24 @@
     urbi.classList.remove('je-skok'); void urbi.offsetWidth; urbi.classList.add('je-skok');
   });
 })();
+
+// Čísla v úvodu se při zobrazení napočítají od nuly (jen hodnoty z dat, žádné „+“)
+(function () {
+  var cisla = document.querySelectorAll('[data-pocitej]');
+  if (!cisla.length || !window.IntersectionObserver) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var fmt = function (n) { return Math.round(n).toLocaleString('cs-CZ').replace(/\s/g, ' '); };
+  var io = new IntersectionObserver(function (zaznamy) {
+    zaznamy.forEach(function (z) {
+      if (!z.isIntersecting) return;
+      io.unobserve(z.target);
+      var el = z.target, cil = Number(el.dataset.pocitej), start = performance.now(), delka = 1200;
+      (function krok(t) {
+        var p = Math.min(1, (t - start) / delka), e = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(cil * e);
+        if (p < 1) requestAnimationFrame(krok);
+      })(start);
+    });
+  }, { threshold: .6 });
+  cisla.forEach(function (c) { io.observe(c); });
+})();
