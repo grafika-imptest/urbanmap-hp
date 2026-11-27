@@ -29,8 +29,7 @@ export function hpV2({ P, devs, obceSerazene, articles }, verze = '2') {
   ];
   const minikarta = (p, cls) => p ? `<a class="v2-float ${cls}" href="${R}projekt/${p.id}/"><img src="${R}${media(p.images[0], 640)}" alt="" loading="eager"/><span><b>${esc(p.name)}</b><span>${esc(p.city)} · ${cenaProjektu(p)}</span></span></a>` : '';
 
-  const body = `
-<section class="v2-hero">
+  const heroV2 = `<section class="v2-hero">
   <div class="v2-hero__blob v2-hero__blob--a" aria-hidden="true"></div><div class="v2-hero__blob v2-hero__blob--b" aria-hidden="true"></div>
   <div class="v2-wrap v2-hero__mrizka">
     <div class="v2-hero__text">
@@ -54,7 +53,33 @@ export function hpV2({ P, devs, obceSerazene, articles }, verze = '2') {
     <div><dt>Projektů</dt><dd>${P.length}</dd></div><div><dt>Developerů</dt><dd>${devs.length}</dd></div>
     <div><dt>Volných jednotek</dt><dd>${cislo(volne)}</dd></div><div><dt>Lokalit</dt><dd>${obceSerazene.length}</dd></div>
   </dl></div>
-</section>
+</section>`;
+  const heroV3 = `<section class="v2-hero v3-hero">
+  <div class="v2-hero__blob v2-hero__blob--a" aria-hidden="true"></div><div class="v2-hero__blob v2-hero__blob--b" aria-hidden="true"></div>
+  <div class="v2-wrap v3-hero__hlava">
+    <h1 class="v2-h1">Nový domov začíná <em>na mapě</em></h1>
+    <p class="v2-lead">Byty a domy přímo od developerů — s cenou, dostupností a polohou. Najděte místo, kde chcete bydlet.</p>
+  </div>
+  <div class="v2-wrap v3-hero__scena">
+    <div class="v3-hero__urbi" aria-hidden="true">
+      <div class="v2-bublina v3-bublina">Ahoj, já jsem <b>Urbi</b>! Tady jsou všechny novostavby. Klikněte na místo, které vás zajímá.</div>
+      <img class="v2-maskot v3-maskot--ukazuje" src="${M(R, 'ukazuje')}" alt="" width="720" height="676" fetchpriority="high"/>
+    </div>
+    <div class="v3-hero__mapa">
+      ${mapa(P.map((p) => bodProjektu(p, R)), { zaber: 'cz', ukazka: true })}
+      <form class="v2-hledani v3-hledani" action="${R}projekty/" method="get" role="search">${ikona('pin')}<input name="q" type="search" placeholder="Město, projekt nebo developer" aria-label="Kde chcete bydlet"/><button class="v2-btn v2-btn--zelene">Hledat ${ikona('sipka')}</button></form>
+      <span class="v3-hero__stitek"><i></i>${P.length} projektů na mapě</span>
+      <a class="v2-btn v2-btn--zelene v3-hero__otevrit" href="${R}projekty/?pohled=mapa">Otevřít celou mapu ${ikona('mapa')}</a>
+    </div>
+  </div>
+  <div class="v2-wrap v2-rychle v3-rychle" aria-label="Rychlé hledání">${rychle.map(([t, h]) => `<a href="${h}">${esc(t)}</a>`).join('')}</div>
+  <div class="v2-wrap"><dl class="v2-cisla">
+    <div><dt>Projektů</dt><dd>${P.length}</dd></div><div><dt>Developerů</dt><dd>${devs.length}</dd></div>
+    <div><dt>Volných jednotek</dt><dd>${cislo(volne)}</dd></div><div><dt>Lokalit</dt><dd>${obceSerazene.length}</dd></div>
+  </dl></div>
+</section>`;
+  const body = `
+${verze === '3' ? heroV3 : heroV2}
 
 <section class="v2-wrap v2-sekce">
   <div class="v2-hlava"><div><span class="v2-eyebrow">Co hledáte</span><h2 class="v2-h2">Bydlení podle <em>vašeho</em> života</h2></div><a class="v2-odkaz" href="${R}projekty/">Všechny projekty ${ikona('sipka')}</a></div>
@@ -68,7 +93,7 @@ export function hpV2({ P, devs, obceSerazene, articles }, verze = '2') {
   <div class="v2-karty">${doporucene.map((p) => kartaProjektu(p, R)).join('')}</div>
 </section>
 
-<section class="v2-mapablok">
+${verze === '3' ? '' : `<section class="v2-mapablok">
   <div class="v2-wrap v2-mapablok__mrizka">
     <div class="v2-mapablok__text">
       <img class="v2-maskot v2-maskot--lupa" src="${M(R, 'lupa')}" alt="" width="694" height="720" loading="lazy"/>
@@ -79,7 +104,7 @@ export function hpV2({ P, devs, obceSerazene, articles }, verze = '2') {
     </div>
     <div class="v2-mapablok__mapa">${mapa(P.map((p) => bodProjektu(p, R)), { zaber: 'cz', ukazka: true })}</div>
   </div>
-</section>
+</section>`}
 
 <section class="v2-wrap v2-sekce">
   <div class="v2-hlava"><div><span class="v2-eyebrow">Lokality</span><h2 class="v2-h2">Kde se teď <em>nejvíc staví</em></h2></div><a class="v2-odkaz" href="${R}lokality/">Všechny lokality ${ikona('sipka')}</a></div>
