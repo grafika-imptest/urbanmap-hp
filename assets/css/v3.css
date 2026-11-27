@@ -164,3 +164,14 @@ body[data-verze="3"] .v2-hlidani__form .u-pole input { box-shadow: none; }
 body[data-verze="3"] .v2-dev .v2-btn--svetle { background: transparent; border: 0; color: #fff; box-shadow: inset 0 0 0 1.5px #ffffff59; }
 body[data-verze="3"] .v2-dev .v2-btn--svetle:hover { box-shadow: inset 0 0 0 1.5px #fff; }
 body[data-verze="3"] .v2-maskot--zvonek, body[data-verze="3"] .v2-maskot--klic { filter: drop-shadow(0 28px 30px #00000059); }
+
+/* Celá v3 do krajů jako současná verze (na širokých monitorech nezůstávají prázdné okraje) */
+body[data-verze="3"] .v2-wrap { width: auto; max-width: none; margin-inline: var(--k-gutter, clamp(16px, 3vw, 48px)); }
+body[data-verze="3"] .v3-hero__scena { grid-template-columns: minmax(180px, 280px) minmax(0, 1fr); }
+body[data-verze="3"] .v3-hero__mapa .u-map { height: clamp(460px, calc(100svh - 280px), 760px); }
+/* 8 projektů: 4 v řadě na širokých, 2 na středních, 1 na mobilu */
+body[data-verze="3"] .v2-karty { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 87.5rem) { body[data-verze="3"] .v2-karty { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 40rem) { body[data-verze="3"] .v2-karty { grid-template-columns: 1fr; } }
+body[data-verze="3"] .v2-mesta { grid-auto-rows: clamp(220px, 15vw, 320px); }
+body[data-verze="3"] .v2-clanek img { aspect-ratio: 16 / 10; }
