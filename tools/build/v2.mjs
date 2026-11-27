@@ -77,7 +77,7 @@ export function hpV2({ P, devs, obceSerazene, articles }) {
       <p class="v2-lead">Všechny projekty vidíte na mapě i s cenou. Přibližte si čtvrť, kde chcete bydlet, a hned víte, co se tam staví a kolik to stojí.</p>
       <a class="v2-btn v2-btn--zelene" href="${R}projekty/?pohled=mapa">Otevřít mapu ${ikona('mapa')}</a>
     </div>
-    <div class="v2-mapablok__mapa">${mapa(P.map((p) => bodProjektu(p, R)), { zaber: 'cz' })}</div>
+    <div class="v2-mapablok__mapa">${mapa(P.map((p) => bodProjektu(p, R)), { zaber: 'cz', ukazka: true })}</div>
   </div>
 </section>
 
@@ -108,6 +108,6 @@ export function hpV2({ P, devs, obceSerazene, articles }) {
   </div>
 </section>`;
 
-  const head = `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;display=swap"/><link rel="stylesheet" href="${R}assets/css/v2.css"/>`;
+  const head = `<link rel="stylesheet" href="${R}assets/css/v2.css"/>`;
   zapis('v2/index.html', stranka({ R, title: 'Urbanmap – Nový domov začíná na mapě (verze 2)', description: 'Katalog novostaveb na mapě: byty a domy přímo od developerů s cenou, dostupností a polohou.', body, mapa: true, bodyAttr: 'data-stranka="v2" data-verze="2"', head, verze: '2' }));
 }

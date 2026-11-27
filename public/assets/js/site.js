@@ -123,7 +123,10 @@
     if (!window.maplibregl) return;
     $$('[data-mapa]').forEach(function (el) {
       var body = JSON.parse(el.dataset.mapa);
-      var map = new maplibregl.Map({ container: el, style: 'https://tiles.openfreemap.org/styles/positron', center: [15.4, 49.8], zoom: 6.2, attributionControl: false, cooperativeGestures: true });
+      // data-ukazka: mapa jen jako náhled uprostřed stránky — kolečko ani gesta ji nesmí zachytit,
+      // jinak se při scrollu stránka „zasekne“ (touchpad posílá pinch jako Ctrl+kolečko). Zoom jen tlačítky a shluky.
+      var ukazka = el.hasAttribute('data-ukazka');
+      var map = new maplibregl.Map({ container: el, style: 'https://tiles.openfreemap.org/styles/positron', center: [15.4, 49.8], zoom: 6.2, attributionControl: false, cooperativeGestures: !ukazka, scrollZoom: !ukazka, touchZoomRotate: !ukazka, dragPan: !ukazka, doubleClickZoom: !ukazka });
       map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
       map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: 'OpenFreeMap · OpenStreetMap' }));
       el._map = map; el._body = body; el._markery = {};

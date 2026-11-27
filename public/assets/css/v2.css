@@ -15,8 +15,8 @@ body[data-verze="2"] .katalog-module__1b44Qq__hlavicka { background: color-mix(i
 /* Typografie */
 .v2-h1 { margin: 0; font-family: var(--k-display); font-weight: 700; font-size: clamp(2.9rem, 6.6vw, 6.2rem); line-height: .95; letter-spacing: -.045em; color: var(--v2-ink); }
 .v2-h2 { margin: 0; font-family: var(--k-display); font-weight: 700; font-size: clamp(2rem, 3.6vw, 3.25rem); line-height: 1.02; letter-spacing: -.035em; color: var(--v2-ink); }
-.v2-h1 em, .v2-h2 em { font-family: var(--v2-serif); font-style: italic; font-weight: 400; letter-spacing: -.01em; color: var(--v2-zelena); }
-.v2-h1 em { font-size: 1.08em; }
+/* Zvýrazněná slova: stejné písmo a řez jako nadpis, jen zelená */
+.v2-h1 em, .v2-h2 em { font: inherit; font-style: normal; letter-spacing: inherit; color: var(--v2-zelena); }
 .v2-lead { margin: 0; font-size: clamp(1.05rem, 1.3vw, 1.2rem); line-height: 1.6; color: var(--v2-ink-60); max-width: 34rem; }
 .v2-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: .8125rem; font-weight: 700; letter-spacing: .02em; color: var(--v2-zelena); }
 .v2-eyebrow .u-ico { width: 16px; height: 16px; }

@@ -262,8 +262,8 @@ export function pasHlidani({ nadpis = 'Nový projekt vám neuteče', text = 'Nas
 }
 
 // Mapa: data bodů jako JSON v atributu, inicializuje site.js
-export function mapa(body, { vyska = '', id = '', zaber = 'cz' } = {}) {
-  return `<div class="u-map${vyska ? ' u-map--' + vyska : ''}"${id ? ` id="${id}"` : ''} data-mapa='${esc(JSON.stringify(body))}' data-zaber="${zaber}"><span class="u-map__nacitani">Mapa se načítá…</span></div>`;
+export function mapa(body, { vyska = '', id = '', zaber = 'cz', ukazka = false } = {}) {
+  return `<div class="u-map${vyska ? ' u-map--' + vyska : ''}"${id ? ` id="${id}"` : ''}${ukazka ? ' data-ukazka' : ''} data-mapa='${esc(JSON.stringify(body))}' data-zaber="${zaber}"><span class="u-map__nacitani">Mapa se načítá…</span></div>`;
 }
 export const bodProjektu = (p, R) => ({ id: p.id, lat: p.lat, lon: p.lon, n: p.name, c: cenaProjektu(p), h: `${R}projekt/${p.id}/`, i: p.images[0] ? R + media(p.images[0], 640) : '' });
 
