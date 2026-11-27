@@ -70,7 +70,16 @@ export function hpV2({ P, devs, obceSerazene, articles }, verze = '2') {
   <div class="v2-wrap v3-hero__scena">
     <div class="v3-hero__urbi" data-urbi='${esc(JSON.stringify(P.map((p) => [p.name, p.city, p.developer.name, p.obec].join(' | '))))}'>
       <div class="v2-bublina v3-bublina" aria-live="polite"><span data-urbi-text>Ahoj, já jsem <b>Urbi</b>! Tady jsou všechny novostavby. Klikněte na místo, které vás zajímá.</span><button type="button" class="v3-bublina__zavrit" data-urbi-zavrit aria-label="Skrýt Urbiho bublinu">×</button></div>
-      <span class="v3-stin"></span><img class="v2-maskot v3-maskot--ukazuje" data-urbi-poza="ukazuje" data-lupa="${M(R, 'lupa')}" src="${M(R, 'ukazuje')}" alt="" width="720" height="676" fetchpriority="high"/>
+      <span class="v3-stin"></span><div class="v3-urbi-telo"><div class="v3-urbi-natoceni" data-urbi-natoceni><img class="v2-maskot v3-maskot--ukazuje" data-urbi-poza="ukazuje" data-lupa="${M(R, 'lupa')}" src="${M(R, 'ukazuje')}" alt="" width="720" height="676" fetchpriority="high"/><svg class="v3-oci" viewBox="0 0 720 676" aria-hidden="true"><defs>
+<radialGradient id="v3-bulva" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#ffffff"/><stop offset=".7" stop-color="#f1f3f4"/><stop offset="1" stop-color="#d9dee1"/></radialGradient>
+<clipPath id="v3-clip-l"><ellipse cx="256" cy="250" rx="46" ry="47"/></clipPath><clipPath id="v3-clip-p"><ellipse cx="437" cy="248" rx="37" ry="46"/></clipPath><radialGradient id="v3-zornice" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#4a4f57"/><stop offset=".55" stop-color="#23262b"/><stop offset="1" stop-color="#0f1113"/></radialGradient></defs>
+<g class="v3-oko" data-oko data-cx="256" data-cy="250" data-rx="21" data-ry="16">
+<ellipse cx="256" cy="250" rx="47" ry="48" fill="url(#v3-bulva)"/><ellipse cx="256" cy="250" rx="47" ry="48" fill="none" stroke="#c9cfd3" stroke-width="2"/>
+<g clip-path="url(#v3-clip-l)"><g class="v3-zornice" data-zornice><ellipse cx="256" cy="250" rx="31" ry="35" fill="url(#v3-zornice)"/><ellipse cx="256" cy="250" rx="31" ry="35" fill="none" stroke="#5b6168" stroke-width="2.5" opacity=".7"/>
+<ellipse cx="246.08" cy="236.7" rx="9.299999999999999" ry="7.7" fill="#fff" opacity=".85" transform="rotate(-30 246.08 236.7)"/><circle cx="266.85" cy="264.7" r="2.79" fill="#fff" opacity=".5"/></g></g></g><g class="v3-oko" data-oko data-cx="437" data-cy="248" data-rx="16" data-ry="15">
+<ellipse cx="437" cy="248" rx="38" ry="47" fill="url(#v3-bulva)"/><ellipse cx="437" cy="248" rx="38" ry="47" fill="none" stroke="#c9cfd3" stroke-width="2"/>
+<g clip-path="url(#v3-clip-p)"><g class="v3-zornice" data-zornice><ellipse cx="437" cy="248" rx="25" ry="34" fill="url(#v3-zornice)"/><ellipse cx="437" cy="248" rx="25" ry="34" fill="none" stroke="#5b6168" stroke-width="2.5" opacity=".7"/>
+<ellipse cx="429" cy="235.08" rx="7.5" ry="7.48" fill="#fff" opacity=".85" transform="rotate(-30 429 235.08)"/><circle cx="445.75" cy="262.28" r="2.25" fill="#fff" opacity=".5"/></g></g></g></svg></div></div>
     </div>
     <div class="v3-hero__mapa">
       ${mapa(P.map((p) => bodProjektu(p, R)), { zaber: 'cz', ukazka: true })}

@@ -30,7 +30,7 @@
     var src = zdroje[poza || 'ukazuje'];
     if (img.getAttribute('src') !== src) {
       img.classList.add('je-vymena');
-      setTimeout(function () { img.setAttribute('src', src); img.classList.remove('je-vymena'); }, 140);
+      setTimeout(function () { img.setAttribute('src', src); img.classList.remove('je-vymena'); urbi.classList.toggle('je-lupa', poza === 'lupa'); }, 140);
     }
   }
   var zpet = function () { rekni(vychozi, 'ukazuje'); };
@@ -61,6 +61,43 @@
     a.addEventListener('focus', ukaz);
     a.addEventListener('mouseleave', function () { if (!pole || !pole.value.trim()) zpet(); });
   });
+
+  // --- Oči sledují kurzor + jemné natočení těla ---
+  // Zornice se posouvají uvnitř bulvy (eliptická mez), tělo se natočí max. o pár stupňů.
+  // Na dotykových zařízeních zůstává výchozí pohled doprava na mapu.
+  var oci = [].slice.call(urbi.querySelectorAll('[data-oko]'));
+  var svg = urbi.querySelector('.v3-oci');
+  var natoceni = urbi.querySelector('[data-urbi-natoceni]');
+  var klid = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cil = null, ramec = 0;
+  function divej(dx, dy) { // dx, dy v rozsahu -1..1
+    oci.forEach(function (o) {
+      var z = o.querySelector('[data-zornice]');
+      z.setAttribute('transform', 'translate(' + (dx * o.dataset.rx).toFixed(2) + ' ' + (dy * o.dataset.ry).toFixed(2) + ')');
+    });
+  }
+  function prepocitej() {
+    ramec = 0;
+    if (!cil || !svg) return;
+    var b = svg.getBoundingClientRect();
+    var sx = b.width / 720, sy = b.height / 676;
+    var ox = b.left + 346 * sx, oy = b.top + 249 * sy; // střed mezi očima
+    var vx = cil.x - ox, vy = cil.y - oy;
+    var d = Math.hypot(vx, vy) || 1;
+    var sila = Math.min(1, d / 160); // blízko obličeje se oči hýbou méně
+    divej(vx / d * sila, vy / d * sila);
+    if (natoceni && !klid) {
+      var ry = Math.max(-1, Math.min(1, vx / 700)) * 9, rx = Math.max(-1, Math.min(1, vy / 500)) * -6;
+      natoceni.style.setProperty('--urbi-ry', ry.toFixed(2) + 'deg');
+      natoceni.style.setProperty('--urbi-rx', rx.toFixed(2) + 'deg');
+    }
+  }
+  divej(.75, -.05); // výchozí: kouká doprava na mapu
+  if (window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    window.addEventListener('pointermove', function (e) { cil = { x: e.clientX, y: e.clientY }; if (!ramec) ramec = requestAnimationFrame(prepocitej); }, { passive: true });
+    window.addEventListener('scroll', function () { if (cil && !ramec) ramec = requestAnimationFrame(prepocitej); }, { passive: true });
+    document.addEventListener('mouseleave', function () { cil = null; divej(.75, -.05); if (natoceni) { natoceni.style.setProperty('--urbi-ry', '0deg'); natoceni.style.setProperty('--urbi-rx', '0deg'); } });
+  }
 
   // Zavřít bublinu — Urbi zůstane, jen ztichne; kliknutím na něj se zase ozve
   urbi.querySelector('[data-urbi-zavrit]').addEventListener('click', function () {
