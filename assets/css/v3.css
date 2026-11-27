@@ -37,7 +37,7 @@ body[data-verze="3"] .v2-hero {
   background:
     radial-gradient(70% 55% at 12% 0%, #e3f6ea 0%, transparent 70%),
     radial-gradient(55% 45% at 100% 0%, #fff0e2 0%, #fff6ee 35%, transparent 72%),
-    radial-gradient(45% 40% at 0% 100%, #fff1e4 0%, transparent 70%),
+    radial-gradient(32% 24% at 0% 66%, #fff1e4 0%, transparent 100%),
     radial-gradient(60% 50% at 50% 30%, #f1faf4 0%, transparent 75%),
     var(--v2-papir);
 }
@@ -175,3 +175,12 @@ body[data-verze="3"] .v2-karty { grid-template-columns: repeat(4, minmax(0, 1fr)
 @media (max-width: 40rem) { body[data-verze="3"] .v2-karty { grid-template-columns: 1fr; } }
 body[data-verze="3"] .v2-mesta { grid-auto-rows: clamp(220px, 15vw, 320px); }
 body[data-verze="3"] .v2-clanek img { aspect-ratio: 16 / 10; }
+
+/* Tmavě zelený měkký kruh za Urbim — bílo-zelený maskot na něm vynikne i vedle světlé mapy */
+.v3-hero__urbi::before { content: ""; position: absolute; z-index: -1; left: 50%; top: 58%; width: min(108%, 310px); aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  background: radial-gradient(circle at 45% 40%, #11683a 0%, #0a4f2c 38%, #0a4f2ccc 52%, #0a4f2c55 63%, #0a4f2c00 72%); filter: blur(6px); opacity: .9; pointer-events: none; }
+.v3-hero__urbi::after { content: ""; position: absolute; z-index: -2; left: 50%; top: 58%; width: min(150%, 430px); aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  background: radial-gradient(circle, #0b5a3140 0%, transparent 65%); filter: blur(20px); pointer-events: none; }
+.v3-stin { opacity: .55; }
+@media (max-width: 64rem) { .v3-hero__urbi::before { left: 75px; width: 170px; top: 50%; } .v3-hero__urbi::after { display: none; } }
+@media (max-width: 40rem) { .v3-hero__urbi::before { left: 55px; width: 125px; } }
