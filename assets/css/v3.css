@@ -118,3 +118,19 @@ body[data-verze="3"] .v3-hero { padding-top: clamp(28px, 3.5vw, 48px); }
   .v3-hero__otevrit { left: 16px; right: 16px; bottom: 16px; }
   .v3-rychle { justify-content: start; }
 }
+
+/* --- Urbi reaguje: bublina se mění, jde zavřít, póza se vymění (lupa při hledání) --- */
+.v3-bublina { padding-right: 34px; transition: opacity .25s, transform .25s; }
+.v3-bublina.je-nova { animation: v3-bublina-nova .35s cubic-bezier(.2, 1.4, .4, 1); }
+@keyframes v3-bublina-nova { from { transform: scale(.94); } }
+.v3-bublina__zavrit { position: absolute; top: 6px; right: 8px; width: 24px; height: 24px; border: 0; border-radius: 50%; background: transparent; color: #8a8f96; font: 600 18px/1 system-ui, sans-serif; cursor: pointer; }
+.v3-bublina__zavrit:hover { background: #f0f2f1; color: var(--v2-ink); }
+.je-ticho .v3-bublina { opacity: 0; transform: translateY(8px) scale(.96); pointer-events: none; }
+.v3-maskot--ukazuje { transition: opacity .14s, scale .14s; }
+.v3-maskot--ukazuje.je-vymena { opacity: 0; scale: .96; }
+.je-skok .v3-maskot--ukazuje { animation: v3-skok .5s cubic-bezier(.2, 1.6, .4, 1), v3-let 5s 0.5s ease-in-out infinite; }
+@keyframes v3-skok { 40% { transform: translateY(-26px) rotate(3deg); } }
+.v3-tecky { display: inline-flex; gap: 3px; vertical-align: middle; }
+.v3-tecky i { width: 5px; height: 5px; border-radius: 50%; background: var(--v3-zelena); animation: v3-tecka 1s infinite; }
+.v3-tecky i:nth-child(2) { animation-delay: .15s; } .v3-tecky i:nth-child(3) { animation-delay: .3s; }
+@keyframes v3-tecka { 50% { opacity: .25; transform: translateY(-2px); } }
